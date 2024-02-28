@@ -1,7 +1,7 @@
-import { Amenities } from "./amenities.enum";
-import { Coordinates } from "./coordinates.type";
-import { OfferType } from "./offer-type.enum";
-import { User } from "./user.type";
+import { Amenities } from './amenities.enum';
+import { Coordinates } from './coordinates.type';
+import { OfferType } from './offer-type.enum';
+import { User } from './user.type';
 
 export type Offer = {
   title: string;
