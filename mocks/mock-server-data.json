@@ -1,0 +1,54 @@
+{
+  "api": {
+    "titles": [
+      "Заголовок1",
+      "Заголовок2",
+      "Заголовок3",
+      "Заголовок4",
+      "Заголовок5"
+    ],
+    "descriptions": [
+      "Описание1",
+      "Описание2",
+      "Описание3",
+      "Описание4",
+      "Описание5"
+    ],
+    "imagePreviews": [
+      "preview1.jpg",
+      "preview2.jpg",
+      "preview3.jpg",
+      "preview4.jpg",
+      "preview5.jpg"
+    ],
+    "photos": [
+      "photo1.jpg",
+      "photo2.jpg",
+      "photo3.jpg",
+      "photo4.jpg",
+      "photo5.jpg"
+    ],
+    "names": ["name1", "name2", "name3", "name4", "name5"],
+    "emails": [
+      "email1@example.com",
+      "email2@example.com",
+      "email3@example.com",
+      "email4@example.com",
+      "email5@example.com"
+    ],
+    "avatars": [
+      "avatar1.jpg",
+      "avatar2.jpg",
+      "avatar3.jpg",
+      "avatar4.jpg",
+      "avatar5.jpg"
+    ],
+    "passwords": [
+      "password1",
+      "password2",
+      "password3",
+      "password4",
+      "password5"
+    ]
+  }
+}
