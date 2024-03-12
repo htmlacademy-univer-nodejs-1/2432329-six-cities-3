@@ -1,4 +1,5 @@
 import { Amenities } from './amenities.enum';
+import { City } from './city.enum';
 import { Coordinates } from './coordinates.type';
 import { OfferType } from './offer-type.enum';
 import { User } from './user.type';
@@ -7,7 +8,7 @@ export type Offer = {
   title: string;
   description: string;
   publishDate: Date;
-  city: string;
+  city: City;
   imagePreview: string;
   photos: string[];
   isPremium: boolean;
