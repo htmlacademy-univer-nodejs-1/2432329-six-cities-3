@@ -97,7 +97,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const cityInfo = getRandomItem(CITIES);
     const { city, latitude, longitude } = cityInfo;
     const imagePreview = getRandomItem(this.mockData.imagePreviews);
-    const photos = getRandomItems(this.mockData.photos);
+    const photos = getRandomItems(this.mockData.photos).join(';');
     const isPremium = getRandomItem(BOOLEANS);
     const isFavorite = getRandomItem(BOOLEANS);
     const rating = generateRandomValue(MIN_RATING, MAX_RATING);
@@ -105,14 +105,14 @@ export class TSVOfferGenerator implements OfferGenerator {
     const roomCount = generateRandomValue(MIN_ROOMS, MAX_ROOMS);
     const guestCount = generateRandomValue(MIN_GUESTS, MAX_GUESTS);
     const rentPrice = generateRandomValue(MIN_RENT, MAX_RENT);
-    const amenities = getRandomItems(AMENITIES);
+    const amenities = getRandomItems(AMENITIES).join(';');
     const name = getRandomItem(this.mockData.names);
     const email = getRandomItem(this.mockData.emails);
     const avatarUrl = getRandomItem(this.mockData.avatars);
     const password = getRandomItem(this.mockData.passwords);
     const userType = getRandomItem(USER_TYPES);
     const commentsCount = generateRandomValue(MIN_COMMENTS, MAX_COMMENTS);
-    const coordinates = { latitude, longitude };
+    const coordinates = [latitude, longitude].join(';');
 
     return [
       title,
