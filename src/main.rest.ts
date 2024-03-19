@@ -1,12 +1,23 @@
+import 'reflect-metadata';
+import { Container } from 'inversify';
 import { RestApplication } from './rest';
-import { RestConfig } from './shared/libs/config';
-import { PinoLogger } from './shared/libs/logger';
+import { Config, RestConfig, RestSchema } from './shared/libs/config';
+import { Logger, PinoLogger } from './shared/libs/logger';
+import { Component } from './shared/types';
 
 async function bootstrap() {
-  const logger = new PinoLogger();
-  const config = new RestConfig(logger);
+  const container = new Container();
+  container
+    .bind<RestApplication>(Component.RestApplication)
+    .to(RestApplication)
+    .inSingletonScope();
+  container.bind<Logger>(Component.Logger).to(PinoLogger).inSingletonScope();
+  container
+    .bind<Config<RestSchema>>(Component.Config)
+    .to(RestConfig)
+    .inSingletonScope();
 
-  const application = new RestApplication(logger, config);
+  const application = container.get<RestApplication>(Component.RestApplication);
   await application.init();
 }
 

@@ -7,3 +7,4 @@ export * from './user-type.enum';
 export * from './user.type';
 export * from './mock-server-data.type';
 export * from './city.enum';
+export * from './component.enum';
