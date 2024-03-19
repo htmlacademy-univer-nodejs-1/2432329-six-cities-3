@@ -1,5 +1,5 @@
-import { RestApplication } from '../rest';
-import { PinoLogger } from './libs/logger';
+import { RestApplication } from './rest';
+import { PinoLogger } from './shared/libs/logger';
 
 async function bootstrap() {
   const logger = new PinoLogger();
