@@ -1,6 +1,6 @@
-import { Command } from './command.interface.ts';
-import { TSVFileReader } from '../../shared/libs/file-reader/index.ts';
-import { createOffer, getErrorMessage } from '../../shared/helpers/index.ts';
+import { Command } from './command.interface.js';
+import { TSVFileReader } from '../../shared/libs/file-reader/index.js';
+import { createOffer, getErrorMessage } from '../../shared/helpers/index.js';
 
 export class ImportCommand implements Command {
   public getName(): string {

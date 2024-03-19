@@ -1,4 +1,4 @@
-import { Command } from './command.interface.ts';
+import { Command } from './command.interface.js';
 import { version } from '../../../package.json';
 
 export class VersionCommand implements Command {

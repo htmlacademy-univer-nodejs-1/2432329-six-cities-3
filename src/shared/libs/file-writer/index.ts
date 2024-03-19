@@ -1,2 +1,2 @@
 export * from './file-writer.interface';
-export * from './file-writer.ts';
+export * from './file-writer.js';
