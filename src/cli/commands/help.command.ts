@@ -1,4 +1,4 @@
-import { Command } from './command.interface.ts';
+import { Command } from './command.interface.js';
 
 export class HelpCommand implements Command {
   public getName(): string {
