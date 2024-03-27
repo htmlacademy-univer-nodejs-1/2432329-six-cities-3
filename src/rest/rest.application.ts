@@ -4,7 +4,6 @@ import { Logger } from '../shared/libs/logger';
 import { Component } from '../shared/types';
 import { DatabaseClient } from '../shared/libs/database-client';
 import { getMongoURI } from '../shared/helpers';
-import { UserModel } from '../shared/modules/user';
 
 @injectable()
 export class RestApplication {

@@ -1,4 +1,4 @@
-import { defaultClasses, prop } from '@typegoose/typegoose';
+import { defaultClasses, getModelForClass, prop } from '@typegoose/typegoose';
 import {
   Amenities,
   City,
@@ -61,3 +61,5 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   @prop({ required: true })
   public coordinates: Coordinates;
 }
+
+export const OfferModel = getModelForClass(OfferEntity);
