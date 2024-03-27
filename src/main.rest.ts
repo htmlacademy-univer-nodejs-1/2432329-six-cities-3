@@ -5,12 +5,14 @@ import { Component } from './shared/types';
 import { createRestApplicationContainer } from './rest/rest.container';
 import { createUserContainer } from './shared/modules/user';
 import { createOfferContainer } from './shared/modules/offer';
+import { createCommentContainer } from './shared/modules/comment/comment.container';
 
 async function bootstrap() {
   const appContainer = Container.merge(
     createRestApplicationContainer(),
     createUserContainer(),
-    createOfferContainer()
+    createOfferContainer(),
+    createCommentContainer()
   );
 
   const application = appContainer.get<RestApplication>(
