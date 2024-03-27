@@ -1,16 +1,21 @@
-import { defaultClasses, getModelForClass, prop } from '@typegoose/typegoose';
 import {
-  Amenities,
-  City,
-  Coordinates,
-  Offer,
-  OfferType,
-  User,
-} from '../../types';
+  Ref,
+  defaultClasses,
+  getModelForClass,
+  modelOptions,
+  prop,
+} from '@typegoose/typegoose';
+import { Amenities, City, Coordinates, OfferType } from '../../types';
+import { UserEntity } from '../user';
 
 export interface OfferEntity extends defaultClasses.Base {}
 
-export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
+@modelOptions({
+  schemaOptions: {
+    collection: 'offers',
+  },
+})
+export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, minlength: 10, maxlength: 100 })
   public title: string;
 
@@ -54,7 +59,7 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
   public amenities: Amenities[];
 
   @prop({ required: true })
-  public author: User;
+  public author: Ref<UserEntity>;
 
   public commentsCount: number;
 

@@ -1,11 +1,20 @@
-import { defaultClasses, getModelForClass, prop } from '@typegoose/typegoose';
-import { Comment, User } from '../../types';
+import {
+  Ref,
+  defaultClasses,
+  getModelForClass,
+  modelOptions,
+  prop,
+} from '@typegoose/typegoose';
+import { UserEntity } from '../user';
 
 export interface CommentEntity extends defaultClasses.Base {}
 
-export class CommentEntity
-  extends defaultClasses.TimeStamps
-  implements Comment {
+@modelOptions({
+  schemaOptions: {
+    collection: 'comments',
+  },
+})
+export class CommentEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, minlength: 5, maxlength: 1024 })
   public text: string;
 
@@ -16,7 +25,7 @@ export class CommentEntity
   public rating: number;
 
   @prop({ required: true })
-  public author: User;
+  public author: Ref<UserEntity>;
 }
 
 export const CommentModel = getModelForClass(CommentEntity);

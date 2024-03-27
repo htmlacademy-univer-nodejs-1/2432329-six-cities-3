@@ -1,7 +1,7 @@
 import { DocumentType, types } from '@typegoose/typegoose';
 import { CreateUserDto } from './dto';
 import { UserService } from './user-service.interface';
-import { UserEntity, UserModel } from './user.entity';
+import { UserEntity } from './user.entity';
 import { inject, injectable } from 'inversify';
 import { Component } from '../../types';
 import { Logger } from '../../libs/logger';
