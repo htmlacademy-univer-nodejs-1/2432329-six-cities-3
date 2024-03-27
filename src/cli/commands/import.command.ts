@@ -5,7 +5,10 @@ import {
   getErrorMessage,
   getMongoURI,
 } from '../../shared/helpers/index.js';
-import { DatabaseClient } from '../../shared/libs/database-client/index.js';
+import {
+  DatabaseClient,
+  MongoDatabaseClient,
+} from '../../shared/libs/database-client/index.js';
 import { ConsoleLogger, Logger } from '../../shared/libs/logger/index.js';
 import { UserService } from '../../shared/modules/user/user-service.interface.js';
 import { OfferService } from '../../shared/modules/offer/offer-service.interface.js';
@@ -40,6 +43,7 @@ export class ImportCommand implements Command {
     this.userService = new DefaultUserService(this.logger, UserModel);
     this.offerService = new DefaultOfferService(this.logger, OfferModel);
     this.commentService = new DefaultCommentService(this.logger, CommentModel);
+    this.databaseClient = new MongoDatabaseClient(this.logger);
   }
 
   public getName(): string {
@@ -54,7 +58,6 @@ export class ImportCommand implements Command {
   }
 
   private async saveOffer(offer: Offer) {
-    // const categories: string[] = [];
     const user = await this.userService.findOrCreate(
       {
         ...offer.author,
@@ -63,15 +66,24 @@ export class ImportCommand implements Command {
       this.salt
     );
 
-    // for (const { name } of offer.categories) {
-    //   const existCategory =
-    //     await this.categoryService.findByCategoryNameOrCreate(name, { name });
-    //   categories.push(existCategory.id);
-    // }
-
     await this.offerService.create({
-      ...offer,
+      title: offer.title,
+      description: offer.description,
+      publishDate: offer.publishDate,
+      city: offer.city,
+      imagePreview: offer.imagePreview,
+      photos: offer.photos,
+      isPremium: offer.isPremium,
+      isFavorite: offer.isFavorite,
+      rating: offer.rating,
+      type: offer.type,
+      roomCount: offer.roomCount,
+      guestCount: offer.guestCount,
+      rentPrice: offer.rentPrice,
+      amenities: offer.amenities,
       author: user,
+      commentsCount: offer.commentsCount,
+      coordinates: offer.coordinates,
     });
   }
 
