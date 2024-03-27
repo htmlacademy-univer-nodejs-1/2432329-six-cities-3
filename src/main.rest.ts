@@ -4,6 +4,10 @@ import { RestApplication } from './rest';
 import { Config, RestConfig, RestSchema } from './shared/libs/config';
 import { Logger, PinoLogger } from './shared/libs/logger';
 import { Component } from './shared/types';
+import {
+  DatabaseClient,
+  MongoDatabaseClient,
+} from './shared/libs/database-client';
 
 async function bootstrap() {
   const container = new Container();
@@ -15,6 +19,10 @@ async function bootstrap() {
   container
     .bind<Config<RestSchema>>(Component.Config)
     .to(RestConfig)
+    .inSingletonScope();
+  container
+    .bind<DatabaseClient>(Component.DatabaseClient)
+    .to(MongoDatabaseClient)
     .inSingletonScope();
 
   const application = container.get<RestApplication>(Component.RestApplication);
