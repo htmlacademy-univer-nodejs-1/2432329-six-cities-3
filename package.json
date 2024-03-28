@@ -11,6 +11,8 @@
   "scripts": {
     "start": "npm run build && node ./dist/main.rest.js",
     "start:dev": "npm run ts ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
+    "import:dev": "npm run ts ./src/main.cli.ts -- --import ./mocks/test-data.tsv 127.0.0.1 six-cities secret",
+    "generate:dev": "npm run ts ./src/main.cli.ts -- --generate 100 ./mocks/test-data.tsv  http://localhost:3123/api",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
@@ -36,6 +38,7 @@
     "npm": ">=8"
   },
   "dependencies": {
+    "@typegoose/typegoose": "^12.2.0",
     "@types/convict": "^6.1.6",
     "@types/convict-format-with-validator": "^6.0.5",
     "convict": "^6.2.4",
@@ -44,6 +47,7 @@
     "dotenv": "^16.4.5",
     "got": "^11.8.2",
     "inversify": "^6.0.2",
+    "mongoose": "^8.2.3",
     "npm": "8.6",
     "pino": "^8.19.0",
     "pino-pretty": "^10.3.1",
