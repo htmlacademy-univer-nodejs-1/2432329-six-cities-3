@@ -12,17 +12,12 @@ import {
 import { ConsoleLogger, Logger } from '../../shared/libs/logger/index.js';
 import { UserService } from '../../shared/modules/user/user-service.interface.js';
 import { OfferService } from '../../shared/modules/offer/offer-service.interface.js';
-import { CommentService } from '../../shared/modules/comment/comment-service.interface.js';
 import { DefaultUserService } from '../../shared/modules/user/default-user.service.js';
 import { UserModel } from '../../shared/modules/user/user.entity.js';
 import {
   DefaultOfferService,
   OfferModel,
 } from '../../shared/modules/offer/index.js';
-import {
-  CommentModel,
-  DefaultCommentService,
-} from '../../shared/modules/comment/index.js';
 import { Offer } from '../../shared/types/index.js';
 
 export const DEFAULT_DB_PORT = '27017';
@@ -33,7 +28,6 @@ export class ImportCommand implements Command {
   private salt: string;
   private userService: UserService;
   private offerService: OfferService;
-  private commentService: CommentService;
 
   constructor() {
     this.onImportedLine = this.onImportedLine.bind(this);
@@ -42,7 +36,6 @@ export class ImportCommand implements Command {
     this.logger = new ConsoleLogger();
     this.userService = new DefaultUserService(this.logger, UserModel);
     this.offerService = new DefaultOfferService(this.logger, OfferModel);
-    this.commentService = new DefaultCommentService(this.logger, CommentModel);
     this.databaseClient = new MongoDatabaseClient(this.logger);
   }
 
@@ -50,11 +43,10 @@ export class ImportCommand implements Command {
     return '--import';
   }
 
-  private async onImportedLine(line: string, resolve: () => void) {
+  private async onImportedLine(line: string) {
     const offer = createOffer(line);
 
     await this.saveOffer(offer);
-    resolve();
   }
 
   private async saveOffer(offer: Offer) {
@@ -89,7 +81,6 @@ export class ImportCommand implements Command {
 
   private onCompleteImport(count: number) {
     console.info(`${count} rows imported.`);
-    this.databaseClient.disconnect();
   }
 
   public async execute(
