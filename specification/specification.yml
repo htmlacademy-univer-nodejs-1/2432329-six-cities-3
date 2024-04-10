@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.2
 info:
   title: API сервер для проекта «Шесть городов».
   description: |-
@@ -96,6 +96,255 @@ paths:
         '400':
           description: Некорректный запрос
 
+  /offers:
+    post:
+      tags:
+        - offers
+      summary: Создание нового предложения
+      description: Создаёт новое предложение по аренде жилья
+      requestBody:
+        required: true
+        description: Данные о новом предложении
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offer'
+      responses:
+        '201':
+          description: Успешное создание
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        '400':
+          description: Некорректный запрос
+
+    get:
+      tags:
+        - offers
+      summary: Список предложений по аренде
+      description: Возвращает список предложений по аренде
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+        '400':
+          description: Некорректный запрос
+
+  /offers/premium?city={city}:
+    get:
+      tags:
+        - offers
+      summary: Премиальные предложения для города
+      description: Возвращает до 3 премиальных предложений в городе
+      parameters:
+        - name: city
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+        '400':
+          description: Некорректный запрос
+
+  /offers/favorites:
+    get:
+      tags:
+        - offers
+      summary: Список избранных предложений
+      description: Возвращает все предложения, добавленные в избранное
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+        '400':
+          description: Некорректный запрос
+
+  /offers/{offerId}/favorites:
+    post:
+      tags:
+        - offers
+      summary: Добавление предложения в избранное
+      description: Добавляет указанное предложение в избранное
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        '400':
+          description: Некорректный запрос
+        '404':
+          description: Предложение не найдено
+
+    delete:
+      tags:
+        - offers
+      summary: Удаляет предложение из избранного
+      description: Удаляет указанное предложение из избранного
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешное удаление предложения из избранного
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        '400':
+          description: Некорректный запрос
+        '404':
+          description: Предложение не найдено
+
+  /offers/{offerId}:
+    put:
+      tags:
+        - offers
+      summary: Редактирование предложения
+      description: Редактирует уже существующее предложение по аренде жилья
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Данные о предложении
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offer'
+      responses:
+        '200':
+          description: Предложение успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        '404':
+          description: Предложение не найдено
+    delete:
+      tags:
+        - offers
+      summary: Удаление предложения по аренде
+      description: Удаляет уже существующее предложение по аренде жилья
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Предложение успешно удалено
+        '404':
+          description: Предложение не найдено
+
+    get:
+      tags:
+        - offers
+      summary: Детальная информация по предложению
+      description: Возвращает детальную информацию по предложению
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        '400':
+          description: Некорректный запрос
+
+  /offers/{offerId}/comments:
+    get:
+      tags:
+        - comments
+      summary: Список комментариев для предложения
+      description: Возвращает список коммментариев для предложения
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Комментарии успешно возвращены
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/comment'
+        '400':
+          description: Некорректный запрос
+        '404':
+          description: Предложение не найдено
+
+    post:
+      tags:
+        - comments
+      summary: Добавление комментария
+      description: Добавляет новый комментарий для указанного предложения
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Данные о комментарии
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+      responses:
+        '200':
+          description: Комментарий успешно добавлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+        '400':
+          description: Некорректный запрос
+
 components:
   schemas:
     createUser:
@@ -129,7 +378,7 @@ components:
           example: 6329c3d6a04ab1061c6425ea
         name:
           type: string
-          example: Ivan
+          example: Name
         email:
           type: string
           example: user@example.com
@@ -151,3 +400,136 @@ components:
           minLength: 6
           maxLength: 12
           example: 123456
+
+    city:
+      type: string
+      enum:
+        - Paris
+        - Cologne
+        - Brussels
+        - Amsterdam
+        - Hamburg
+        - Dusseldorf
+      example: Paris
+
+    offerType:
+      type: string
+      enum:
+        - apartment
+        - house
+        - room
+        - hotel
+      example: room
+
+    amenities:
+      type: string
+      enum:
+        - Breakfast
+        - Air conditioning
+        - Laptop friendly workspace
+        - Baby seat
+        - Washer
+        - Towels
+        - Fridge
+      example: Breakfast
+
+    coordinates:
+      type: object
+      properties:
+        latitude:
+          type: number
+          minimum: 0
+          maximum: 90
+          example: 69
+        longitude:
+          type: number
+          minimum: 0
+          maximum: 180
+          example: 13
+
+    offer:
+      type: object
+      properties:
+        id:
+          type: string
+          example: sdfj83920jds
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: Apartment title
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+          example: My new apartment
+        publishDate:
+          type: string
+          format: date
+        city:
+          $ref: '#/components/schemas/city'
+        imagePreview:
+          type: string
+          example: preview.jpg
+        photos:
+          type: array
+          items:
+            type: string
+        isPremium:
+          type: boolean
+          example: false
+        isFavorite:
+          type: boolean
+          example: false
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 5
+        offerType:
+          $ref: '#/components/schemas/offerType'
+        roomCount:
+          type: number
+          minimum: 1
+          maximum: 8
+          example: 2
+        guestCount:
+          type: number
+          minimum: 1
+          maximum: 10
+          example: 4
+        rentPrice:
+          type: number
+          minimum: 100
+          maximum: 100000
+          example: 1000
+        amenities:
+          $ref: '#/components/schemas/amenities'
+        author:
+          $ref: '#/components/schemas/user'
+        commentsCount:
+          type: number
+        coordinates:
+          $ref: '#/components/schemas/coordinates'
+
+    comment:
+      type: object
+      properties:
+        id:
+          type: string
+          example: dffj1344jfdsajh432421
+        text:
+          type: string
+          minLength: 5
+          maxLength: 1024
+          example: My first comment
+        date:
+          type: string
+          format: date
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 5
+        author:
+          $ref: '#/components/schemas/user'
