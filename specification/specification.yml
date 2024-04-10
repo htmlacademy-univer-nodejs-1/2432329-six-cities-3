@@ -1,0 +1,153 @@
+openapi: 3.1.0
+info:
+  title: API сервер для проекта «Шесть городов».
+  description: |-
+    * Список ресурсов и маршрутов сервера «Шесть городов».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+tags:
+  - name: offers
+    description: Действия с объявлениями.
+  - name: comments
+    description: Действия с комментариями.
+  - name: users
+    description: Действия с пользователем.
+
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя.
+
+      requestBody:
+        description: Информация для создания нового пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        '201':
+          description: Пользователь зарегистрирован. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        '409':
+          description: Пользователь с таким email уже существует.
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя
+      description: Авторизует пользователя на основе логина и пароля
+      requestBody:
+        required: true
+        description: Данные для авторизации
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginUser'
+      responses:
+        '200':
+          description: Успешная авторизация
+          content:
+            application/json:
+              schema:
+                token:
+                  type: string
+                  example: token
+        '404':
+          description: Неверный логин или пароль
+
+    get:
+      tags:
+        - users
+      summary: Проверка состояния пользователя
+      description: Возвращает информацию по авторизованному пользователю
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          description: Некорректный запрос.
+        '401':
+          description: Неавторизованный запрос.
+
+  /users/logout:
+    delete:
+      tags:
+        - users
+      summary: Завершение сеанса
+      description: Завершает сеанс для пользователя
+      responses:
+        '200':
+          description: Сеанс завершён
+        '400':
+          description: Некорректный запрос
+
+components:
+  schemas:
+    createUser:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 15
+          example: Name
+        email:
+          type: string
+          example: user@example.com
+        password:
+          type: string
+          minLength: 6
+          maxLength: 12
+          example: 123456
+        type:
+          type: string
+          example: Ordinary
+        avatar:
+          type: string
+          example: avatar.jpg
+
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+        name:
+          type: string
+          example: Ivan
+        email:
+          type: string
+          example: user@example.com
+        type:
+          type: string
+          example: Ordinary
+        avatar:
+          type: string
+          example: avatar.jpg
+
+    loginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: user@example.com
+        password:
+          type: string
+          minLength: 6
+          maxLength: 12
+          example: 123456
