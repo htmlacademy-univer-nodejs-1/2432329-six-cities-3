@@ -1,10 +1,11 @@
 import { inject, injectable } from 'inversify';
 import { CommentService } from './comment-service.interface';
-import { Component } from '../../types';
+import { Component, SortType } from '../../types';
 import { Logger } from '../../libs/logger';
 import { DocumentType, types } from '@typegoose/typegoose';
 import { CommentEntity } from './comment.entity';
 import { CreateCommentDto } from './dto';
+import { DEFAULT_COMMENT_COUNT } from './comment.constant';
 
 @injectable()
 export class DefaultCommentService implements CommentService {
@@ -20,12 +21,17 @@ export class DefaultCommentService implements CommentService {
     const result = await this.commentModel.create(dto);
     this.logger.info(`New comment created: ${dto.publishDate} ${dto.author}`);
 
-    return result;
+    return result.populate('author');
   }
 
-  public async findById(
-    CommentId: string
+  public async getByOfferId(
+    offerId: string
   ): Promise<DocumentType<CommentEntity> | null> {
-    return this.commentModel.findById(CommentId).exec();
+    return this.commentModel
+      .findById(offerId)
+      .sort({ createdAt: SortType.Down })
+      .limit(DEFAULT_COMMENT_COUNT)
+      .populate('author')
+      .exec();
   }
 }

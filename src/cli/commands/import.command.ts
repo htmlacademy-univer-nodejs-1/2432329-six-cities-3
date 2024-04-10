@@ -12,7 +12,7 @@ import {
 import { ConsoleLogger, Logger } from '../../shared/libs/logger/index.js';
 import { UserService } from '../../shared/modules/user/user-service.interface.js';
 import { OfferService } from '../../shared/modules/offer/offer-service.interface.js';
-import { DefaultUserService } from '../../shared/modules/user/default-user.service.js';
+import { DefaultUserService } from '../../shared/modules/user/user.service.js';
 import { UserModel } from '../../shared/modules/user/user.entity.js';
 import {
   DefaultOfferService,
@@ -50,7 +50,7 @@ export class ImportCommand implements Command {
   }
 
   private async saveOffer(offer: Offer) {
-    const user = await this.userService.findOrCreate(
+    const user = await this.userService.getOrCreate(
       {
         ...offer.author,
         password: '123456',

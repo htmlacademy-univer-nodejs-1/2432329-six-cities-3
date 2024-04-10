@@ -4,5 +4,5 @@ import { CreateCommentDto } from './dto';
 
 export interface CommentService {
   create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>>;
-  findById(offerId: string): Promise<DocumentType<CommentEntity> | null>;
+  getByOfferId(offerId: string): Promise<DocumentType<CommentEntity> | null>;
 }

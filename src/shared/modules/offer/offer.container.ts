@@ -3,7 +3,7 @@ import { OfferService } from './offer-service.interface';
 import { Component } from '../../types';
 import { types } from '@typegoose/typegoose';
 import { OfferEntity, OfferModel } from './offer.entity';
-import { DefaultOfferService } from './default-offer.service';
+import { DefaultOfferService } from './offer.service';
 
 export function createOfferContainer() {
   const offerContainer = new Container();
