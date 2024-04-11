@@ -16,7 +16,35 @@ tags:
     description: Действия с пользователем.
 
 paths:
-  /users/register:
+  /{userId}/avatar:
+    post:
+      tags:
+        - users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Аватар пользователя
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Некорректный запрос
+        '401':
+          description: Не авторизован
+
+  /register:
     post:
       tags:
         - users
@@ -42,7 +70,7 @@ paths:
         '409':
           description: Пользователь с таким email уже существует.
 
-  /users/login:
+  /login:
     post:
       tags:
         - users
@@ -61,9 +89,9 @@ paths:
           content:
             application/json:
               schema:
-                token:
-                  type: string
-                  example: token
+                $ref: '#/components/schemas/authUser'
+        '401':
+          description: Не авторизован
         '404':
           description: Неверный логин или пароль
 
@@ -80,11 +108,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
         '400':
-          description: Некорректный запрос.
+          description: Некорректный запрос
         '401':
-          description: Неавторизованный запрос.
+          description: Не авторизован
 
-  /users/logout:
+  /logout:
     delete:
       tags:
         - users
@@ -95,6 +123,8 @@ paths:
           description: Сеанс завершён
         '400':
           description: Некорректный запрос
+        '401':
+          description: Не авторизован
 
   /offers:
     post:
@@ -108,7 +138,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/offer'
+              $ref: '#/components/schemas/newOffer'
       responses:
         '201':
           description: Успешное создание
@@ -118,6 +148,8 @@ paths:
                 $ref: '#/components/schemas/offer'
         '400':
           description: Некорректный запрос
+        '401':
+          description: Не авторизован
 
     get:
       tags:
@@ -136,7 +168,7 @@ paths:
         '400':
           description: Некорректный запрос
 
-  /offers/premium?city={city}:
+  /premium?city={city}:
     get:
       tags:
         - offers
@@ -160,7 +192,7 @@ paths:
         '400':
           description: Некорректный запрос
 
-  /offers/favorites:
+  /favorites:
     get:
       tags:
         - offers
@@ -177,8 +209,10 @@ paths:
                   $ref: '#/components/schemas/offer'
         '400':
           description: Некорректный запрос
+        '401':
+          description: Не авторизован
 
-  /offers/{offerId}/favorites:
+  /favorites/{offerId}:
     post:
       tags:
         - offers
@@ -199,6 +233,8 @@ paths:
                 $ref: '#/components/schemas/offer'
         '400':
           description: Некорректный запрос
+        '401':
+          description: Не авторизован
         '404':
           description: Предложение не найдено
 
@@ -222,11 +258,13 @@ paths:
                 $ref: '#/components/schemas/offer'
         '400':
           description: Некорректный запрос
+        '401':
+          description: Не авторизован
         '404':
           description: Предложение не найдено
 
   /offers/{offerId}:
-    put:
+    patch:
       tags:
         - offers
       summary: Редактирование предложения
@@ -251,8 +289,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/offer'
+        '401':
+          description: Не авторизован
         '404':
           description: Предложение не найдено
+
     delete:
       tags:
         - offers
@@ -269,6 +310,8 @@ paths:
           description: Предложение успешно удалено
         '404':
           description: Предложение не найдено
+        '401':
+          description: Не авторизован
 
     get:
       tags:
@@ -334,7 +377,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/comment'
+              $ref: '#/components/schemas/createComment'
       responses:
         '200':
           description: Комментарий успешно добавлен
@@ -344,6 +387,8 @@ paths:
                 $ref: '#/components/schemas/comment'
         '400':
           description: Некорректный запрос
+        '401':
+          description: Не авторизован
 
 components:
   schemas:
@@ -366,9 +411,28 @@ components:
         type:
           type: string
           example: Ordinary
+
+    authUser:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+        name:
+          type: string
+          example: Name
+        email:
+          type: string
+          example: user@example.com
+        type:
+          type: string
+          example: Ordinary
         avatar:
           type: string
           example: avatar.jpg
+        token:
+          type: string
+          example: token
 
     user:
       type: object
@@ -412,7 +476,7 @@ components:
         - Dusseldorf
       example: Paris
 
-    offerType:
+    type:
       type: string
       enum:
         - apartment
@@ -421,7 +485,7 @@ components:
         - hotel
       example: room
 
-    amenities:
+    goods:
       type: string
       enum:
         - Breakfast
@@ -433,7 +497,7 @@ components:
         - Fridge
       example: Breakfast
 
-    coordinates:
+    location:
       type: object
       properties:
         latitude:
@@ -446,6 +510,53 @@ components:
           minimum: 0
           maximum: 180
           example: 13
+
+    newOffer:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: Apartment title
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+          example: My new apartment
+        city:
+          $ref: '#/components/schemas/city'
+        previewImage:
+          type: string
+          example: preview.jpg
+        isPremium:
+          type: boolean
+          example: false
+        type:
+          $ref: '#/components/schemas/type'
+        bedrooms:
+          type: number
+          minimum: 1
+          maximum: 8
+          example: 2
+        maxAdults:
+          type: number
+          minimum: 1
+          maximum: 10
+          example: 4
+        price:
+          type: number
+          minimum: 100
+          maximum: 100000
+          example: 1000
+        goods:
+          $ref: '#/components/schemas/goods'
+        location:
+          $ref: '#/components/schemas/location'
+        images:
+          type: array
+          items:
+            type: string
 
     offer:
       type: object
@@ -468,10 +579,10 @@ components:
           format: date
         city:
           $ref: '#/components/schemas/city'
-        imagePreview:
+        previewImage:
           type: string
           example: preview.jpg
-        photos:
+        images:
           type: array
           items:
             type: string
@@ -486,31 +597,31 @@ components:
           minimum: 1
           maximum: 5
           example: 5
-        offerType:
-          $ref: '#/components/schemas/offerType'
-        roomCount:
+        type:
+          $ref: '#/components/schemas/type'
+        bedrooms:
           type: number
           minimum: 1
           maximum: 8
           example: 2
-        guestCount:
+        maxAdults:
           type: number
           minimum: 1
           maximum: 10
           example: 4
-        rentPrice:
+        price:
           type: number
           minimum: 100
           maximum: 100000
           example: 1000
-        amenities:
-          $ref: '#/components/schemas/amenities'
-        author:
+        goods:
+          $ref: '#/components/schemas/goods'
+        host:
           $ref: '#/components/schemas/user'
         commentsCount:
           type: number
-        coordinates:
-          $ref: '#/components/schemas/coordinates'
+        location:
+          $ref: '#/components/schemas/location'
 
     comment:
       type: object
@@ -518,7 +629,7 @@ components:
         id:
           type: string
           example: dffj1344jfdsajh432421
-        text:
+        comment:
           type: string
           minLength: 5
           maxLength: 1024
@@ -531,5 +642,19 @@ components:
           minimum: 1
           maximum: 5
           example: 5
-        author:
+        user:
           $ref: '#/components/schemas/user'
+
+    createComment:
+      type: object
+      properties:
+        comment:
+          type: string
+          minLength: 5
+          maxLength: 1024
+          example: My first comment
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 5
