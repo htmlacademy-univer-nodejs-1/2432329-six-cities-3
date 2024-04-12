@@ -1,7 +1,7 @@
 import { Container } from 'inversify';
 import { UserService } from './user-service.interface';
 import { Component } from '../../types';
-import { DefaultUserService } from './default-user.service';
+import { DefaultUserService } from './user.service';
 import { UserEntity, UserModel } from './user.entity';
 import { types } from '@typegoose/typegoose';
 

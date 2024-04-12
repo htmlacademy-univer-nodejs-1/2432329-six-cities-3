@@ -8,3 +8,4 @@ export * from './user.type';
 export * from './mock-server-data.type';
 export * from './city.enum';
 export * from './component.enum';
+export * from './sort-type.enum';
