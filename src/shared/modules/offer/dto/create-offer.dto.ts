@@ -1,17 +1,17 @@
-import { Amenities, City, Coordinates, OfferType, User } from '../../../types';
+import { City, Location, OfferType } from '../../../types';
 
 export class CreateOfferDto {
-  public title: string;
-  public description: string;
-  public city: City;
-  public imagePreview: string;
-  public photos: string[];
-  public isFavorite: boolean;
-  public type: OfferType;
-  public roomCount: number;
-  public guestCount: number;
-  public rentPrice: number;
-  public amenities: Amenities[];
-  public author: User;
-  public coordinates: Coordinates;
+  title: string;
+  description: string;
+  city: City;
+  previewImage: string;
+  isPremium: boolean;
+  isFavorite: boolean;
+  type: OfferType;
+  bedrooms: number;
+  maxAdults: number;
+  price: number;
+  goods: string[];
+  location: Location;
+  images: string[];
 }
