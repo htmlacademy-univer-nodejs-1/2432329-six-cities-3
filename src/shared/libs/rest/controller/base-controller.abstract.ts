@@ -36,8 +36,8 @@ export abstract class BaseController implements Controller {
     this.send(res, StatusCodes.CREATED, data);
   }
 
-  public noContent<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.NO_CONTENT, data);
+  public noContent(res: Response): void {
+    this.send(res, StatusCodes.NO_CONTENT, null);
   }
 
   public ok<T>(res: Response, data: T): void {
@@ -50,5 +50,9 @@ export abstract class BaseController implements Controller {
 
   public notFound<T>(res: Response, data: T): void {
     this.send(res, StatusCodes.NOT_FOUND, data);
+  }
+
+  public badRequest<T>(res: Response, data: T): void {
+    this.send(res, StatusCodes.BAD_REQUEST, data);
   }
 }

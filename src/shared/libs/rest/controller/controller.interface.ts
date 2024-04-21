@@ -10,4 +10,5 @@ export interface Controller {
   noContent<T>(res: Response, data: T): void;
   unauthorized<T>(res: Response, data: T): void;
   notFound<T>(res: Response, data: T): void;
+  badRequest<T>(res: Response, data: T): void;
 }

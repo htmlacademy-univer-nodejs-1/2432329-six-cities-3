@@ -308,7 +308,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        '204':
           description: Предложение успешно удалено
         '404':
           description: Предложение не найдено
