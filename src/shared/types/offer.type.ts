@@ -1,25 +1,24 @@
 import { Amenities } from './amenities.enum';
 import { City } from './city.enum';
-import { Coordinates } from './coordinates.type';
+import { Location } from './location.type';
 import { OfferType } from './offer-type.enum';
 import { User } from './user.type';
 
 export type Offer = {
+  id: string;
+  price: number;
+  rating: number;
   title: string;
-  description: string;
-  publishDate: Date;
-  city: City;
-  imagePreview: string;
-  photos: string[];
   isPremium: boolean;
   isFavorite: boolean;
-  rating: number;
+  city: City;
+  location: Location;
+  previewImage: string;
   type: OfferType;
-  roomCount: number;
-  guestCount: number;
-  rentPrice: number;
-  amenities: Amenities[];
-  author: User;
-  commentsCount: number;
-  coordinates: Coordinates;
+  bedrooms: number;
+  description: string;
+  goods: Amenities[];
+  host: User;
+  images: string[];
+  maxAdults: number;
 };

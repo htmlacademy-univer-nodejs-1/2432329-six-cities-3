@@ -5,7 +5,7 @@ import {
   modelOptions,
   prop,
 } from '@typegoose/typegoose';
-import { Amenities, City, Coordinates, OfferType } from '../../types';
+import { Amenities, City, Location, OfferType } from '../../types';
 import { UserEntity } from '../user';
 
 export interface OfferEntity extends defaultClasses.Base {}
@@ -29,10 +29,10 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public city: City;
 
   @prop({ required: true, type: () => String })
-  public imagePreview: string;
+  public previewImage: string;
 
   @prop({ required: true, type: () => Array })
-  public photos: string[];
+  public images: string[];
 
   @prop({ required: true, type: () => Boolean })
   public isPremium: boolean;
@@ -47,24 +47,24 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public type: OfferType;
 
   @prop({ required: true, min: 1, max: 8, type: () => Number })
-  public roomCount: number;
+  public bedrooms: number;
 
   @prop({ required: true, min: 1, max: 10, type: () => Number })
-  public guestCount: number;
+  public maxAdults: number;
 
   @prop({ required: true, min: 100, max: 100_000, type: () => Number })
-  public rentPrice: number;
+  public price: number;
 
   @prop({ required: true, type: () => Array })
-  public amenities: Amenities[];
+  public goods: Amenities[];
 
   @prop({ required: true, ref: UserEntity })
-  public author: Ref<UserEntity>;
+  public host: Ref<UserEntity>;
 
   public commentsCount: number;
 
   @prop({ required: true, type: () => Object })
-  public coordinates: Coordinates;
+  public location: Location;
 }
 
 export const OfferModel = getModelForClass(OfferEntity);

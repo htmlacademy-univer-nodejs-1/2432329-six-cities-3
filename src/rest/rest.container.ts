@@ -7,6 +7,7 @@ import {
   MongoDatabaseClient,
 } from '../shared/libs/database-client';
 import { Logger, PinoLogger } from '../shared/libs/logger';
+import { AppExceptionFilter, ExceptionFilter } from '../shared/libs/rest';
 
 export function createRestApplicationContainer() {
   const restApplicationContainer = new Container();
@@ -26,6 +27,10 @@ export function createRestApplicationContainer() {
   restApplicationContainer
     .bind<DatabaseClient>(Component.DatabaseClient)
     .to(MongoDatabaseClient)
+    .inSingletonScope();
+  restApplicationContainer
+    .bind<ExceptionFilter>(Component.ExceptionFilter)
+    .to(AppExceptionFilter)
     .inSingletonScope();
 
   return restApplicationContainer;

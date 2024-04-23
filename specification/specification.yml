@@ -14,6 +14,8 @@ tags:
     description: Действия с комментариями.
   - name: users
     description: Действия с пользователем.
+servers:
+  - url: http://localhost:4000
 
 paths:
   /{userId}/avatar:
@@ -306,7 +308,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        '204':
           description: Предложение успешно удалено
         '404':
           description: Предложение не найдено
