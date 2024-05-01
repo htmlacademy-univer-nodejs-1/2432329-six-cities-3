@@ -1,8 +1,4 @@
-import { User } from '../../../types';
-
 export class CreateCommentDto {
-  text: string;
-  publishDate: Date;
+  comment: string;
   rating: number;
-  author: User;
 }
