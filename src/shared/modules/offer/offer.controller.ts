@@ -1,5 +1,10 @@
 import { inject, injectable } from 'inversify';
-import { BaseController, HttpError, HttpMethod } from '../../libs/rest';
+import {
+  BaseController,
+  HttpError,
+  HttpMethod,
+  ValidateObjectIdMiddleware,
+} from '../../libs/rest';
 import { Component } from '../../types';
 import { Logger } from '../../libs/logger';
 import { Request, Response } from 'express';
@@ -34,16 +39,19 @@ export class OfferController extends BaseController {
       path: 'offers/:id',
       method: HttpMethod.Get,
       handler: this.getById,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({
       path: 'offers/:id',
       method: HttpMethod.Patch,
       handler: this.updateById,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({
       path: 'offers/:id',
       method: HttpMethod.Delete,
       handler: this.deleteById,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({
       path: '/premium',
@@ -59,11 +67,13 @@ export class OfferController extends BaseController {
       path: '/favorites/:id',
       method: HttpMethod.Post,
       handler: this.addFavorite,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({
       path: '/favorites/:id',
       method: HttpMethod.Delete,
       handler: this.removeFavorite,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
   }
 

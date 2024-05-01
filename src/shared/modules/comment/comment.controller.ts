@@ -5,6 +5,7 @@ import {
   HttpMethod,
   RequestBody,
   RequestParams,
+  ValidateObjectIdMiddleware,
 } from '../../libs/rest';
 import { Component } from '../../types';
 import { Logger } from '../../libs/logger';
@@ -31,11 +32,13 @@ export class CommentController extends BaseController {
       path: '/offers/:offerId/comments',
       method: HttpMethod.Get,
       handler: this.get,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
     this.addRoute({
       path: '/offers/:offerId/comments',
       method: HttpMethod.Post,
       handler: this.create,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')],
     });
   }
 
