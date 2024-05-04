@@ -14,6 +14,7 @@ import { fillDTO } from '../../helpers';
 import { OfferRdo } from './rdo';
 import { CreateOfferDto, UpdateOfferDto } from './dto';
 import { StatusCodes } from 'http-status-codes';
+import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -41,7 +42,10 @@ export class OfferController extends BaseController {
       path: 'offers/:id',
       method: HttpMethod.Get,
       handler: this.getById,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ],
     });
     this.addRoute({
       path: 'offers/:id',
@@ -50,13 +54,17 @@ export class OfferController extends BaseController {
       middlewares: [
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
     this.addRoute({
       path: 'offers/:id',
       method: HttpMethod.Delete,
       handler: this.deleteById,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ],
     });
     this.addRoute({
       path: '/premium',
@@ -72,13 +80,19 @@ export class OfferController extends BaseController {
       path: '/favorites/:id',
       method: HttpMethod.Post,
       handler: this.addFavorite,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ],
     });
     this.addRoute({
       path: '/favorites/:id',
       method: HttpMethod.Delete,
       handler: this.removeFavorite,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ],
     });
   }
 
@@ -107,14 +121,6 @@ export class OfferController extends BaseController {
     const id = req.params.id;
     const offer = await this.offerService.getById(id);
 
-    if (!offer) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${id} not found.`,
-        'OfferController'
-      );
-    }
-
     const responseData = fillDTO(OfferRdo, offer);
     this.ok(res, responseData);
   }
@@ -129,15 +135,6 @@ export class OfferController extends BaseController {
 
   public async deleteById(req: Request, res: Response): Promise<void> {
     const id = req.params.id;
-    const offer = await this.offerService.getById(id);
-
-    if (!offer) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${id} not found.`,
-        'OfferController'
-      );
-    }
 
     await this.offerService.deleteById(id);
     this.noContent(res);
@@ -166,15 +163,6 @@ export class OfferController extends BaseController {
 
   public async addFavorite(req: Request, res: Response): Promise<void> {
     const id = req.params['id'];
-    const offer = await this.offerService.getById(id);
-
-    if (!offer) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${id} not found.`,
-        'OfferController'
-      );
-    }
 
     const result = await this.offerService.addFavorite(id);
     const responseData = fillDTO(OfferRdo, result);
@@ -183,15 +171,6 @@ export class OfferController extends BaseController {
 
   public async removeFavorite(req: Request, res: Response): Promise<void> {
     const id = req.params['id'];
-    const offer = await this.offerService.getById(id);
-
-    if (!offer) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${id} not found.`,
-        'OfferController'
-      );
-    }
 
     const result = await this.offerService.removeFavorite(id);
     const responseData = fillDTO(OfferRdo, result);

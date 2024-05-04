@@ -1,7 +1,6 @@
 import { inject } from 'inversify';
 import {
   BaseController,
-  HttpError,
   HttpMethod,
   RequestBody,
   RequestParams,
@@ -13,10 +12,10 @@ import { Logger } from '../../libs/logger';
 import { CommentService } from './comment-service.interface';
 import { Request, Response } from 'express';
 import { CommentRdo } from './rdo';
-import { StatusCodes } from 'http-status-codes';
 import { OfferService } from '../offer';
 import { fillDTO } from '../../helpers';
 import { CreateCommentDto } from './dto';
+import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware';
 
 type CreateCommentRequest = Request<RequestParams, RequestBody, CommentRdo>;
 
@@ -34,7 +33,10 @@ export class CommentController extends BaseController {
       path: '/offers/:offerId/comments',
       method: HttpMethod.Get,
       handler: this.get,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ],
     });
     this.addRoute({
       path: '/offers/:offerId/comments',
@@ -43,19 +45,13 @@ export class CommentController extends BaseController {
       middlewares: [
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(CreateCommentDto),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
   }
 
   public async get({ params }: Request, res: Response): Promise<void> {
     const offerId = params.offerId as unknown as string;
-    if (!(await this.offerService.getById(offerId))) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${offerId} not found.`,
-        'OfferController'
-      );
-    }
 
     const comments = await this.commentService.getByOfferId(offerId);
     this.ok(res, fillDTO(CommentRdo, comments));
@@ -66,13 +62,6 @@ export class CommentController extends BaseController {
     res: Response
   ): Promise<void> {
     const offerId = params.offerId as unknown as string;
-    if (!(await this.offerService.getById(offerId))) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${offerId} not found.`,
-        'CommentController'
-      );
-    }
 
     const comment = await this.commentService.create(body);
     await this.offerService.updateCommentCount(offerId);
