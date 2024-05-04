@@ -3,6 +3,7 @@ import {
   BaseController,
   HttpError,
   HttpMethod,
+  ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
 } from '../../libs/rest';
 import { Component } from '../../types';
@@ -11,7 +12,7 @@ import { Request, Response } from 'express';
 import { DefaultOfferService } from './offer.service';
 import { fillDTO } from '../../helpers';
 import { OfferRdo } from './rdo';
-import { CreateOfferDto } from './dto';
+import { CreateOfferDto, UpdateOfferDto } from './dto';
 import { StatusCodes } from 'http-status-codes';
 
 @injectable()
@@ -34,6 +35,7 @@ export class OfferController extends BaseController {
       path: 'offers/',
       method: HttpMethod.Post,
       handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)],
     });
     this.addRoute({
       path: 'offers/:id',
@@ -45,7 +47,10 @@ export class OfferController extends BaseController {
       path: 'offers/:id',
       method: HttpMethod.Patch,
       handler: this.updateById,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateDtoMiddleware(UpdateOfferDto),
+      ],
     });
     this.addRoute({
       path: 'offers/:id',

@@ -5,6 +5,7 @@ import {
   HttpMethod,
   RequestBody,
   RequestParams,
+  ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
 } from '../../libs/rest';
 import { Component } from '../../types';
@@ -15,6 +16,7 @@ import { CommentRdo } from './rdo';
 import { StatusCodes } from 'http-status-codes';
 import { OfferService } from '../offer';
 import { fillDTO } from '../../helpers';
+import { CreateCommentDto } from './dto';
 
 type CreateCommentRequest = Request<RequestParams, RequestBody, CommentRdo>;
 
@@ -38,7 +40,10 @@ export class CommentController extends BaseController {
       path: '/offers/:offerId/comments',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateDtoMiddleware(CreateCommentDto),
+      ],
     });
   }
 

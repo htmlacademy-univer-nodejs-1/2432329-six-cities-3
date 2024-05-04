@@ -5,6 +5,7 @@ import {
   HttpMethod,
   RequestBody,
   RequestParams,
+  ValidateDtoMiddleware,
 } from '../../libs/rest';
 import { Component } from '../../types';
 import { Logger } from '../../libs/logger';
@@ -32,11 +33,13 @@ export class UserController extends BaseController {
       path: '/register',
       method: HttpMethod.Post,
       handler: this.register,
+      middlewares: [new ValidateDtoMiddleware(CreateUserDto)],
     });
     this.addRoute({
       path: '/login',
       method: HttpMethod.Post,
       handler: this.login,
+      middlewares: [new ValidateDtoMiddleware(LoginUserDto)],
     });
     this.addRoute({
       path: '/login',
