@@ -9,3 +9,4 @@ export * from './mock-server-data.type';
 export * from './city.enum';
 export * from './component.enum';
 export * from './sort-type.enum';
+export * from './document-exists.interface';

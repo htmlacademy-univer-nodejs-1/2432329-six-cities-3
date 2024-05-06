@@ -100,4 +100,8 @@ export class DefaultOfferService implements OfferService {
       .populate('author')
       .exec();
   }
+
+  public async exists(offerId: string): Promise<boolean> {
+    return this.offerModel.exists({ id: offerId }).exec() !== null;
+  }
 }

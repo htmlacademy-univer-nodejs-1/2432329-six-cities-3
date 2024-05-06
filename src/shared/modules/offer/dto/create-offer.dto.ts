@@ -1,17 +1,78 @@
-import { City, Location, OfferType } from '../../../types';
+import {
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsNumber,
+  IsObject,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
+import { Amenities, City, Location, OfferType } from '../../../types';
+import { CreateOfferValidationMessage } from './create-offer.messages';
 
 export class CreateOfferDto {
-  title: string;
-  description: string;
-  city: City;
-  previewImage: string;
-  isPremium: boolean;
-  isFavorite: boolean;
-  type: OfferType;
-  bedrooms: number;
-  maxAdults: number;
-  price: number;
-  goods: string[];
-  location: Location;
-  images: string[];
+  @IsString({ message: CreateOfferValidationMessage.title.invalidFormat })
+  @MinLength(10, { message: CreateOfferValidationMessage.title.minLength })
+  @MaxLength(100, { message: CreateOfferValidationMessage.title.maxLength })
+  public title: string;
+
+  @IsNumber(
+    {},
+    { message: CreateOfferValidationMessage.description.invalidFormat }
+  )
+  @MinLength(20, { message: CreateOfferValidationMessage.title.minLength })
+  @MaxLength(1024, { message: CreateOfferValidationMessage.title.maxLength })
+  public description: string;
+
+  @IsEnum(City, { message: CreateOfferValidationMessage.city.invalidFormat })
+  public city: City;
+
+  public previewImage: string;
+
+  @IsBoolean({ message: CreateOfferValidationMessage.isPremium.invalidFormat })
+  public isPremium: boolean;
+
+  @IsBoolean({ message: CreateOfferValidationMessage.isFavorite.invalidFormat })
+  public isFavorite: boolean;
+
+  @IsEnum(OfferType, {
+    message: CreateOfferValidationMessage.city.invalidFormat,
+  })
+  public type: OfferType;
+
+  @IsNumber(
+    {},
+    { message: CreateOfferValidationMessage.bedrooms.invalidFormat }
+  )
+  @Min(1, { message: CreateOfferValidationMessage.bedrooms.min })
+  @Max(8, { message: CreateOfferValidationMessage.bedrooms.max })
+  public bedrooms: number;
+
+  @IsNumber(
+    {},
+    { message: CreateOfferValidationMessage.maxAdults.invalidFormat }
+  )
+  @Min(1, { message: CreateOfferValidationMessage.maxAdults.min })
+  @Max(10, { message: CreateOfferValidationMessage.maxAdults.max })
+  public maxAdults: number;
+
+  @IsNumber({}, { message: CreateOfferValidationMessage.price.invalidFormat })
+  @Min(100, { message: CreateOfferValidationMessage.price.min })
+  @Max(100000, { message: CreateOfferValidationMessage.price.max })
+  public price: number;
+
+  @IsArray({ message: CreateOfferValidationMessage.goods.invalidFormat })
+  @IsEnum(Amenities, {
+    message: CreateOfferValidationMessage.goods.invalidElementFormat,
+  })
+  public goods: Amenities[];
+
+  @IsObject({ message: CreateOfferValidationMessage.location.invalidFormat })
+  public location: Location;
+
+  @IsArray({ message: CreateOfferValidationMessage.images.invalidFormat })
+  public images: string[];
 }

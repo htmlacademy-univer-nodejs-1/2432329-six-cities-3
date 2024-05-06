@@ -19,7 +19,7 @@ export class DefaultCommentService implements CommentService {
     dto: CreateCommentDto
   ): Promise<DocumentType<CommentEntity>> {
     const result = await this.commentModel.create(dto);
-    this.logger.info(`New comment created: ${dto.publishDate} ${dto.author}`);
+    this.logger.info('New comment created');
 
     return result.populate('author');
   }
