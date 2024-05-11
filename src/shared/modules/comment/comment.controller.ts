@@ -2,6 +2,7 @@ import { inject } from 'inversify';
 import {
   BaseController,
   HttpMethod,
+  PrivateRouteMiddleware,
   RequestBody,
   RequestParams,
   ValidateDtoMiddleware,
@@ -43,6 +44,7 @@ export class CommentController extends BaseController {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(CreateCommentDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),

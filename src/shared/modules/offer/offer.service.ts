@@ -25,7 +25,7 @@ export class DefaultOfferService implements OfferService {
   public async getById(
     offerId: string
   ): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findById(offerId).populate('author').exec();
+    return this.offerModel.findById(offerId).populate('host').exec();
   }
 
   public async updateById(
@@ -34,7 +34,7 @@ export class DefaultOfferService implements OfferService {
   ): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, { new: true })
-      .populate('author')
+      .populate('host')
       .exec();
   }
 
@@ -51,7 +51,7 @@ export class DefaultOfferService implements OfferService {
       .find()
       .sort({ createdAt: SortType.Down })
       .limit(offerCount ?? DEFAULT_OFFER_COUNT)
-      .populate('author')
+      .populate('host')
       .exec();
   }
 
@@ -62,12 +62,12 @@ export class DefaultOfferService implements OfferService {
       .find({ isPremium: true, city })
       .sort({ createdAt: SortType.Down })
       .limit(PREMIUM_OFFER_COUNT)
-      .populate('author')
+      .populate('host')
       .exec();
   }
 
   public async getFavorites(): Promise<DocumentType<OfferEntity>[] | null> {
-    return this.offerModel.find({ isFavorite: true }).populate('author').exec();
+    return this.offerModel.find({ isFavorite: true }).populate('host').exec();
   }
 
   public async addFavorite(
@@ -75,7 +75,7 @@ export class DefaultOfferService implements OfferService {
   ): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(id, { isFavorite: true }, { new: true })
-      .populate('author')
+      .populate('host')
       .exec();
   }
 
@@ -84,7 +84,7 @@ export class DefaultOfferService implements OfferService {
   ): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(id, { isFavorite: false }, { new: true })
-      .populate('author')
+      .populate('host')
       .exec();
   }
 
@@ -97,7 +97,7 @@ export class DefaultOfferService implements OfferService {
           commentCount: 1,
         },
       })
-      .populate('author')
+      .populate('host')
       .exec();
   }
 
