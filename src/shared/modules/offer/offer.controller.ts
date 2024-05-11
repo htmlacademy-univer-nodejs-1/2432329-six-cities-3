@@ -114,6 +114,7 @@ export class OfferController extends BaseController {
   public async create(
     {
       body,
+      tokenPayload,
     }: Request<
       Record<string, unknown>,
       Record<string, unknown>,
@@ -121,7 +122,10 @@ export class OfferController extends BaseController {
     >,
     res: Response
   ): Promise<void> {
-    const result = await this.offerService.create(body);
+    const result = await this.offerService.create({
+      ...body,
+      host: tokenPayload.id,
+    });
     const responseData = fillDTO(OfferRdo, result);
     this.created(res, responseData);
   }
