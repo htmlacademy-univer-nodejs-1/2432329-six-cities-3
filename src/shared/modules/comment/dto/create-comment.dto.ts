@@ -11,4 +11,6 @@ export class CreateCommentDto {
   @Min(1, { message: CreateCommentValidationMessage.rating.min })
   @Max(5, { message: CreateCommentValidationMessage.rating.max })
   public rating: number;
+
+  public author: string;
 }

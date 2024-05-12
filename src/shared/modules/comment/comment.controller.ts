@@ -2,6 +2,7 @@ import { inject } from 'inversify';
 import {
   BaseController,
   HttpMethod,
+  PrivateRouteMiddleware,
   RequestBody,
   RequestParams,
   ValidateDtoMiddleware,
@@ -43,6 +44,7 @@ export class CommentController extends BaseController {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(CreateCommentDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
@@ -58,12 +60,15 @@ export class CommentController extends BaseController {
   }
 
   public async create(
-    { body, params }: CreateCommentRequest,
+    { body, params, tokenPayload }: CreateCommentRequest,
     res: Response
   ): Promise<void> {
     const offerId = params.offerId as unknown as string;
 
-    const comment = await this.commentService.create(body);
+    const comment = await this.commentService.create({
+      ...body,
+      author: tokenPayload.id,
+    });
     await this.offerService.updateCommentCount(offerId);
     this.created(res, fillDTO(CommentRdo, comment));
   }

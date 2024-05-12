@@ -75,4 +75,6 @@ export class CreateOfferDto {
 
   @IsArray({ message: CreateOfferValidationMessage.images.invalidFormat })
   public images: string[];
+
+  public host: string;
 }

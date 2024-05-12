@@ -17,7 +17,8 @@ import { Request, Response } from 'express';
 import { CreateUserDto, LoginUserDto } from './dto';
 import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../helpers';
-import { AuthUserRdo } from './rdo';
+import { AuthUserRdo, LoggedUserRdo } from './rdo';
+import { AuthService } from '../auth';
 
 type CreateUserRequest = Request<RequestParams, RequestBody, CreateUserDto>;
 type LoginUserRequest = Request<RequestParams, RequestBody, LoginUserDto>;
@@ -26,7 +27,9 @@ export class UserController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.UserService) private readonly userService: UserService,
-    @inject(Component.Config) private readonly configService: Config<RestSchema>
+    @inject(Component.Config)
+    private readonly configService: Config<RestSchema>,
+    @inject(Component.AuthService) private readonly authService: AuthService
   ) {
     super(logger);
     this.logger.info('Register router for UserController');
@@ -89,33 +92,31 @@ export class UserController extends BaseController {
     this.created(res, responseData);
   }
 
-  public async login(
-    { body }: LoginUserRequest,
-    _res: Response
-  ): Promise<void> {
-    const existsUser = await this.userService.getByEmail(body.email);
+  public async login({ body }: LoginUserRequest, res: Response): Promise<void> {
+    const user = await this.authService.verify(body);
+    const token = await this.authService.authenticate(user);
+    const responseData = fillDTO(LoggedUserRdo, {
+      email: user.email,
+      token,
+    });
+    this.ok(res, responseData);
+  }
 
-    if (!existsUser) {
+  public async checkStatus(
+    { tokenPayload: { email } }: Request,
+    res: Response
+  ): Promise<void> {
+    const foundUser = await this.userService.getByEmail(email);
+
+    if (!foundUser) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
-        `User with email ${body.email} not found.`,
+        'Unauthorized',
         'UserController'
       );
     }
 
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController'
-    );
-  }
-
-  public async checkStatus(): Promise<void> {
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController'
-    );
+    this.ok(res, fillDTO(LoggedUserRdo, foundUser));
   }
 
   public async logout(): Promise<void> {
