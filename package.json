@@ -9,16 +9,16 @@
   ],
   "main": "main.js",
   "scripts": {
-    "start": "npm run build && node ./dist/main.rest.js",
-    "start:dev": "nodemon",
-    "import:dev": "npm run ts ./src/main.cli.ts -- --import ./mocks/test-data.tsv 127.0.0.1 six-cities secret",
-    "generate:dev": "npm run ts ./src/main.cli.ts -- --generate 100 ./mocks/test-data.tsv  http://localhost:3123/api",
-    "build": "npm run clean && npm run compile",
-    "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
+    "build": "npm run clean && npm run compile",
+    "lint": "eslint src/ --ext .ts",
     "ts": "tsx",
-    "mock:server": "json-server ./mocks/mock-server-data.json --port 3123"
+    "start": "npm run build && node ./dist/main.rest.js",
+    "mock:server": "json-server ./mocks/mock-server-data.json --port 3123",
+    "start:dev": "nodemon",
+    "generate:dev": "npm run ts ./src/main.cli.ts -- --generate 100 ./mocks/test-data.tsv  http://localhost:3123/api",
+    "import:dev": "npm run ts ./src/main.cli.ts -- --import ./mocks/test-data.tsv 127.0.0.1 six-cities secret"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
