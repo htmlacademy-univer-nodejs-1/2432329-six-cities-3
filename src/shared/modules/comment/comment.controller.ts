@@ -23,7 +23,7 @@ type CreateCommentRequest = Request<RequestParams, RequestBody, CommentRdo>;
 export class CommentController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
-    @inject(Component.UserService)
+    @inject(Component.CommentService)
     private readonly commentService: CommentService,
     @inject(Component.OfferService) private readonly offerService: OfferService
   ) {
