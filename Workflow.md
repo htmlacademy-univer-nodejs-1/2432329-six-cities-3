@@ -126,3 +126,4 @@ DB_PASSWORD='' - пароль для базы данных
 DB_PORT='27017' - порт базы данных
 DB_NAME='six-cities' - название базы данных
 JWT_SECRET='secret' - секрет для JWT токенов
+UPLOAD_DIRECTORY='/upload' - путь до папки для загрузки файлов
