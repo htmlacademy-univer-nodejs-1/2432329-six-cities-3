@@ -10,6 +10,7 @@ import {
   ExceptionFilter,
   ParseTokenMiddleware,
 } from '../shared/libs/rest';
+import cors from 'cors';
 
 @injectable()
 export class RestApplication {
@@ -61,7 +62,6 @@ export class RestApplication {
     );
 
     this.server.use(express.json());
-
     this.server.use(
       '/upload',
       express.static(this.config.get('UPLOAD_DIRECTORY'))
@@ -69,6 +69,7 @@ export class RestApplication {
     this.server.use(
       authenticateMiddleware.execute.bind(authenticateMiddleware)
     );
+    this.server.use(cors());
   }
 
   private async _initExceptionFilters() {
