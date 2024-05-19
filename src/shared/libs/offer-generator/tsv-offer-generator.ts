@@ -117,7 +117,6 @@ export class TSVOfferGenerator implements OfferGenerator {
     return [
       title,
       description,
-      publishDate,
       city,
       imagePreview,
       photos,
@@ -134,7 +133,6 @@ export class TSVOfferGenerator implements OfferGenerator {
       avatarUrl,
       password,
       userType,
-      commentsCount,
       coordinates,
     ].join('\t');
   }

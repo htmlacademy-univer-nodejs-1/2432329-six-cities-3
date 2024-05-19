@@ -1,10 +1,9 @@
 import { Amenities, City, Offer, OfferType, UserType } from '../types';
 
-export function createOffer(offerData: string): Offer {
+export function createOffer(offerData: string): Omit<Offer, 'id'> {
   const [
     title,
     description,
-    publishDate,
     city,
     imagePreview,
     photos,
@@ -21,34 +20,31 @@ export function createOffer(offerData: string): Offer {
     avatarUrl,
     password,
     userType,
-    commentsCount,
     coordinates,
   ] = offerData.replace('\n', '').split('\t');
 
   return {
     title,
     description: description,
-    publishDate: new Date(publishDate),
     city: city as City,
-    imagePreview: imagePreview,
-    photos: photos.split(';'),
+    previewImage: imagePreview,
+    images: photos.split(';'),
     isPremium: isPremium === 'true',
     isFavorite: isFavorite === 'true',
     rating: Number(rating),
     type: type as OfferType,
-    roomCount: Number(roomCount),
-    guestCount: Number(guestCount),
-    rentPrice: Number(rentPrice),
-    amenities: amenities.split(';').map((amenity) => amenity as Amenities),
-    author: {
+    bedrooms: Number(roomCount),
+    maxAdults: Number(guestCount),
+    price: Number(rentPrice),
+    goods: amenities.split(';').map((amenity) => amenity as Amenities),
+    host: {
       name,
       email,
       avatarUrl,
       password,
-      userType: userType as UserType,
+      type: userType as UserType,
     },
-    commentsCount: Number(commentsCount),
-    coordinates: {
+    location: {
       latitude: Number(coordinates.split(';')[0]),
       longitude: Number(coordinates.split(';')[1]),
     },

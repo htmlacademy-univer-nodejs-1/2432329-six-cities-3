@@ -5,5 +5,5 @@ export type User = {
   email: string;
   avatarUrl?: string;
   password: string;
-  userType: UserType;
+  type: UserType;
 };

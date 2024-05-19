@@ -12,4 +12,8 @@ export class CreateUserDto {
 
   @IsEnum(UserType, { message: CreateUserValidationMessage.type.invalidFormat })
   public type: UserType;
+
+  @MinLength(6)
+  @MaxLength(12)
+  public password: string;
 }
