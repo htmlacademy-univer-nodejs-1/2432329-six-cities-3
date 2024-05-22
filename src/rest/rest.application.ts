@@ -88,6 +88,10 @@ export class RestApplication {
     await this._initDb();
     this.logger.info('Init database completed');
 
+    this.logger.info('Init app-level middleware');
+    await this._initMiddleware();
+    this.logger.info('App-level middleware initialization completed');
+
     this.logger.info('Init controllers');
     await this._initControllers();
     this.logger.info('Controller initialization completed');
@@ -96,9 +100,6 @@ export class RestApplication {
     await this._initExceptionFilters();
     this.logger.info('Exception filters initialization compleated');
 
-    this.logger.info('Init app-level middleware');
-    await this._initMiddleware();
-    this.logger.info('App-level middleware initialization completed');
 
     this.logger.info('Try to init server…');
     await this._initServer();

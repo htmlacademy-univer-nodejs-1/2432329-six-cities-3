@@ -16,7 +16,7 @@ export interface CommentEntity extends defaultClasses.Base {}
 })
 export class CommentEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, minlength: 5, maxlength: 1024, type: () => String })
-  public text: string;
+  public comment: string;
 
   @prop({ required: true, type: () => Date })
   public publishDate: Date;
