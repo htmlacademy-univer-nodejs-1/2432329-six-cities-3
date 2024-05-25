@@ -67,7 +67,7 @@ export class CommentController extends BaseController {
 
     const comment = await this.commentService.create({
       ...body,
-      author: tokenPayload.id,
+      user: tokenPayload.id,
     });
     await this.offerService.updateCommentCount(offerId);
     this.created(res, fillDTO(CommentRdo, comment));

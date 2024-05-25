@@ -24,7 +24,7 @@ export class DefaultCommentService implements CommentService {
     });
     this.logger.info('New comment created');
 
-    return result.populate('author');
+    return result.populate('user');
   }
 
   public async getByOfferId(

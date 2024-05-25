@@ -20,8 +20,8 @@ export class CreateOfferDto {
   public title: string;
 
   @IsString({ message: CreateOfferValidationMessage.description.invalidFormat })
-  @MinLength(20, { message: CreateOfferValidationMessage.title.minLength })
-  @MaxLength(1024, { message: CreateOfferValidationMessage.title.maxLength })
+  @MinLength(20, { message: CreateOfferValidationMessage.description.minLength })
+  @MaxLength(1024, { message: CreateOfferValidationMessage.description.maxLength })
   public description: string;
 
   @IsObject({

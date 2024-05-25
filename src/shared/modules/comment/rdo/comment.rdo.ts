@@ -7,5 +7,5 @@ export class CommentRdo {
   @Expose()
   public rating: number;
 
-  public author: string;
+  public user: string;
 }
