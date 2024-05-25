@@ -1,5 +1,5 @@
 import { DocumentType, types } from '@typegoose/typegoose';
-import { CreateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from './dto';
 import { UserService } from './user-service.interface';
 import { UserEntity } from './user.entity';
 import { inject, injectable } from 'inversify';
@@ -48,5 +48,12 @@ export class DefaultUserService implements UserService {
     }
 
     return this.create(dto, salt);
+  }
+
+  public async updateById(
+    userId: string,
+    dto: UpdateUserDto
+  ): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findByIdAndUpdate(userId, dto, { new: true }).exec();
   }
 }

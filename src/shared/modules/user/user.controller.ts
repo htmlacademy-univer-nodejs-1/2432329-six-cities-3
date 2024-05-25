@@ -17,7 +17,7 @@ import { Request, Response } from 'express';
 import { CreateUserDto, LoginUserDto } from './dto';
 import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../helpers';
-import { AuthUserRdo, LoggedUserRdo } from './rdo';
+import { AuthUserRdo, LoggedUserRdo, UploadUserAvatarRdo } from './rdo';
 import { AuthService } from '../auth';
 
 type CreateUserRequest = Request<RequestParams, RequestBody, CreateUserDto>;
@@ -123,9 +123,15 @@ export class UserController extends BaseController {
     this.ok(res, null);
   }
 
-  public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filepath: req.file?.path,
-    });
+  public async uploadAvatar({ params, file }: Request, res: Response) {
+    const { userId } = params;
+    if (file) {
+      const uploadFile = { avatarUrl: file.filename };
+      await this.userService.updateById(userId, uploadFile);
+      this.created(
+        res,
+        fillDTO(UploadUserAvatarRdo, { filepath: uploadFile.avatarUrl })
+      );
+    }
   }
 }
