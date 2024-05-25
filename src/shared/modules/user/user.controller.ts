@@ -119,12 +119,8 @@ export class UserController extends BaseController {
     this.ok(res, fillDTO(LoggedUserRdo, foundUser));
   }
 
-  public async logout(): Promise<void> {
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController'
-    );
+  public async logout(_req: Request, res: Response): Promise<void> {
+    this.ok(res, null);
   }
 
   public async uploadAvatar(req: Request, res: Response) {

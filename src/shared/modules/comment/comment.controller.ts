@@ -56,7 +56,7 @@ export class CommentController extends BaseController {
     const offerId = params.offerId as unknown as string;
 
     const comments = await this.commentService.getByOfferId(offerId);
-    this.ok(res, fillDTO(CommentRdo, comments));
+    this.ok(res, fillDTO(CommentRdo, comments ?? []));
   }
 
   public async create(
