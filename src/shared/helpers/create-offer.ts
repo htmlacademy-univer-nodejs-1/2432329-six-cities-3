@@ -1,4 +1,10 @@
-import { Amenities, CityName, Offer, OfferType, UserType } from '../types';
+import {
+  Amenities,
+  CityName,
+  Offer,
+  OfferType,
+  UserType,
+} from '../types';
 
 export function createOffer(offerData: string): Omit<Offer, 'id'> {
   const [
@@ -26,7 +32,13 @@ export function createOffer(offerData: string): Omit<Offer, 'id'> {
   return {
     title,
     description: description,
-    city: city as CityName,
+    city: {
+      name: city as CityName,
+      location: {
+        latitude: Number(coordinates.split(';')[0]),
+        longitude: Number(coordinates.split(';')[1]),
+      },
+    },
     previewImage: imagePreview,
     images: photos.split(';'),
     isPremium: isPremium === 'true',

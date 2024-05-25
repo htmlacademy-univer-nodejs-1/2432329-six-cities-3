@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import {
   generateRandomValue,
   getRandomItem,
@@ -12,9 +11,6 @@ import {
   UserType,
 } from '../../types';
 import { OfferGenerator } from './offer-generator.interface';
-
-const FIRST_WEEK_DAY = 1;
-const LAST_WEEK_DAY = 7;
 
 const MIN_RATING = 1;
 const MAX_RATING = 5;
@@ -80,9 +76,6 @@ const AMENITIES = [
   Amenities.Washer,
 ];
 
-const MIN_COMMENTS = 0;
-const MAX_COMMENTS = 1000;
-
 const USER_TYPES = [UserType.Regular, UserType.Pro];
 
 export class TSVOfferGenerator implements OfferGenerator {
@@ -91,9 +84,6 @@ export class TSVOfferGenerator implements OfferGenerator {
   generate(): string {
     const title = getRandomItem(this.mockData.titles);
     const description = getRandomItem(this.mockData.descriptions);
-    const publishDate = dayjs()
-      .subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day')
-      .toISOString();
     const cityInfo = getRandomItem(CITIES);
     const { city, latitude, longitude } = cityInfo;
     const imagePreview = getRandomItem(this.mockData.imagePreviews);
@@ -111,7 +101,6 @@ export class TSVOfferGenerator implements OfferGenerator {
     const avatarUrl = getRandomItem(this.mockData.avatars);
     const password = getRandomItem(this.mockData.passwords);
     const userType = getRandomItem(USER_TYPES);
-    const commentsCount = generateRandomValue(MIN_COMMENTS, MAX_COMMENTS);
     const coordinates = [latitude, longitude].join(';');
 
     return [

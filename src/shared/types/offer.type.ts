@@ -1,5 +1,5 @@
 import { Amenities } from './amenities.enum';
-import { CityName } from './city-name.enum';
+import { City } from './city';
 import { Location } from './location.type';
 import { OfferType } from './offer-type.enum';
 import { User } from './user.type';
@@ -11,7 +11,7 @@ export type Offer = {
   title: string;
   isPremium: boolean;
   isFavorite: boolean;
-  city: CityName;
+  city: City;
   location: Location;
   previewImage: string;
   type: OfferType;
