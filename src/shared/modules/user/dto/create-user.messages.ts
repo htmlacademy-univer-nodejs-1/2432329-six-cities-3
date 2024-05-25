@@ -7,7 +7,7 @@ export const CreateUserValidationMessage = {
     invalidFormat: 'Must be a valid email',
   },
   type: {
-    invalidFormat: 'Must be one of: Ordinary, Pro',
+    invalidFormat: 'Must be one of: Regular, Pro',
   },
   password: {
     minLength: 'Minimum password length must be 6',

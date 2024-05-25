@@ -412,7 +412,7 @@ components:
           example: 123456
         type:
           type: string
-          example: Ordinary
+          example: Regular
 
     authUser:
       type: object
@@ -428,7 +428,7 @@ components:
           example: user@example.com
         type:
           type: string
-          example: Ordinary
+          example: Regular
         avatar:
           type: string
           example: avatar.jpg
@@ -450,7 +450,7 @@ components:
           example: user@example.com
         type:
           type: string
-          example: Ordinary
+          example: Regular
         avatar:
           type: string
           example: avatar.jpg

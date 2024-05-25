@@ -6,7 +6,7 @@ import {
 } from '../../helpers';
 import {
   Amenities,
-  City,
+  CityName,
   MockServerData,
   OfferType,
   UserType,
@@ -30,32 +30,32 @@ const MAX_RENT = 100_000;
 
 const CITIES = [
   {
-    city: City.Amsterdam,
+    city: CityName.Amsterdam,
     latitude: 52.370216,
     longitude: 4.895168,
   },
   {
-    city: City.Brussels,
+    city: CityName.Brussels,
     latitude: 50.846557,
     longitude: 4.351697,
   },
   {
-    city: City.Cologne,
+    city: CityName.Cologne,
     latitude: 50.938361,
     longitude: 6.959974,
   },
   {
-    city: City.Dusseldorf,
+    city: CityName.Dusseldorf,
     latitude: 51.225402,
     longitude: 6.776314,
   },
   {
-    city: City.Hamburg,
+    city: CityName.Hamburg,
     latitude: 53.550341,
     longitude: 10.000654,
   },
   {
-    city: City.Paris,
+    city: CityName.Paris,
     latitude: 48.85661,
     longitude: 2.351499,
   },
@@ -83,7 +83,7 @@ const AMENITIES = [
 const MIN_COMMENTS = 0;
 const MAX_COMMENTS = 1000;
 
-const USER_TYPES = [UserType.Ordinary, UserType.Pro];
+const USER_TYPES = [UserType.Regular, UserType.Pro];
 
 export class TSVOfferGenerator implements OfferGenerator {
   constructor(private readonly mockData: MockServerData) {}

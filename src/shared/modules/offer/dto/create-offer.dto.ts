@@ -19,15 +19,14 @@ export class CreateOfferDto {
   @MaxLength(100, { message: CreateOfferValidationMessage.title.maxLength })
   public title: string;
 
-  @IsNumber(
-    {},
-    { message: CreateOfferValidationMessage.description.invalidFormat }
-  )
+  @IsString({ message: CreateOfferValidationMessage.description.invalidFormat })
   @MinLength(20, { message: CreateOfferValidationMessage.title.minLength })
   @MaxLength(1024, { message: CreateOfferValidationMessage.title.maxLength })
   public description: string;
 
-  @IsEnum(City, { message: CreateOfferValidationMessage.city.invalidFormat })
+  @IsObject({
+    message: CreateOfferValidationMessage.city.invalidFormat,
+  })
   public city: City;
 
   public previewImage: string;
@@ -35,11 +34,8 @@ export class CreateOfferDto {
   @IsBoolean({ message: CreateOfferValidationMessage.isPremium.invalidFormat })
   public isPremium: boolean;
 
-  @IsBoolean({ message: CreateOfferValidationMessage.isFavorite.invalidFormat })
-  public isFavorite: boolean;
-
   @IsEnum(OfferType, {
-    message: CreateOfferValidationMessage.city.invalidFormat,
+    message: CreateOfferValidationMessage.type.invalidFormat,
   })
   public type: OfferType;
 
@@ -65,9 +61,6 @@ export class CreateOfferDto {
   public price: number;
 
   @IsArray({ message: CreateOfferValidationMessage.goods.invalidFormat })
-  @IsEnum(Amenities, {
-    message: CreateOfferValidationMessage.goods.invalidElementFormat,
-  })
   public goods: Amenities[];
 
   @IsObject({ message: CreateOfferValidationMessage.location.invalidFormat })

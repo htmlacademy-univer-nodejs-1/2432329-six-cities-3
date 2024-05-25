@@ -10,17 +10,13 @@ export const CreateOfferValidationMessage = {
     maxLength: 'Maximum description length must be 1024',
   },
   city: {
-    invalidFormat:
-      'must be one of Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf',
+    invalidFormat: 'Should be of type City',
   },
   isPremium: {
     invalidFormat: 'Must be Boolean',
   },
-  isFavorite: {
-    invalidFormat: 'Must be Boolean',
-  },
   type: {
-    invalidFormat: 'Must be one of Apartment, House, Room, Hotel',
+    invalidFormat: 'Must be one of apartment, house, room, hotel',
   },
   bedrooms: {
     invalidFormat: 'Bedrooms must be a number',
@@ -39,8 +35,6 @@ export const CreateOfferValidationMessage = {
   },
   goods: {
     invalidFormat: 'Must be an array',
-    invalidElementFormat:
-      'Element must be one of Breakfast, Air conditioning, Laptop friendly workspace, Baby seat, Washer, Towels, Fridge',
   },
   location: {
     invalidFormat: 'Location must be a valid object',

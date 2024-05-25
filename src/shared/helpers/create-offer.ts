@@ -1,4 +1,4 @@
-import { Amenities, City, Offer, OfferType, UserType } from '../types';
+import { Amenities, CityName, Offer, OfferType, UserType } from '../types';
 
 export function createOffer(offerData: string): Omit<Offer, 'id'> {
   const [
@@ -26,7 +26,7 @@ export function createOffer(offerData: string): Omit<Offer, 'id'> {
   return {
     title,
     description: description,
-    city: city as City,
+    city: city as CityName,
     previewImage: imagePreview,
     images: photos.split(';'),
     isPremium: isPremium === 'true',

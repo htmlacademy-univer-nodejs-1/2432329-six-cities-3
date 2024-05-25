@@ -54,7 +54,7 @@ export class ImportCommand implements Command {
       {
         ...offer.host,
         email: 'test@example.com',
-        type: UserType.Ordinary,
+        type: UserType.Regular,
         password: '1234567',
         name: 'jurmaev',
       },

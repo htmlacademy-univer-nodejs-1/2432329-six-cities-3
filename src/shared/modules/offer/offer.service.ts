@@ -20,6 +20,7 @@ export class DefaultOfferService implements OfferService {
       ...dto,
       publishDate: new Date(),
       rating: 1,
+      isFavorite: false,
     });
     this.logger.info(`New offer created: ${dto.title}`);
 
