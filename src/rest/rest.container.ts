@@ -7,7 +7,12 @@ import {
   MongoDatabaseClient,
 } from '../shared/libs/database-client';
 import { Logger, PinoLogger } from '../shared/libs/logger';
-import { AppExceptionFilter, ExceptionFilter } from '../shared/libs/rest';
+import {
+  AppExceptionFilter,
+  ExceptionFilter,
+  HttpErrorExceptionFilter,
+} from '../shared/libs/rest';
+import { ValidationExceptionFilter } from '../shared/libs/rest/exception-filter/validation.exception-filter';
 
 export function createRestApplicationContainer() {
   const restApplicationContainer = new Container();
@@ -31,6 +36,14 @@ export function createRestApplicationContainer() {
   restApplicationContainer
     .bind<ExceptionFilter>(Component.ExceptionFilter)
     .to(AppExceptionFilter)
+    .inSingletonScope();
+  restApplicationContainer
+    .bind<ExceptionFilter>(Component.HttpExceptionFilter)
+    .to(HttpErrorExceptionFilter)
+    .inSingletonScope();
+  restApplicationContainer
+    .bind<ExceptionFilter>(Component.ValidationExceptionFilter)
+    .to(ValidationExceptionFilter)
     .inSingletonScope();
 
   return restApplicationContainer;

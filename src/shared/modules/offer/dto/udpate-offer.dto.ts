@@ -83,9 +83,6 @@ export class UpdateOfferDto {
   public price: number;
 
   @IsArray({ message: UpdateOfferValidationMessage.goods.invalidFormat })
-  @IsEnum(Amenities, {
-    message: UpdateOfferValidationMessage.goods.invalidElementFormat,
-  })
   public goods: Amenities[];
 
   @IsMongoId({ message: UpdateOfferValidationMessage.host.invalidFormat })

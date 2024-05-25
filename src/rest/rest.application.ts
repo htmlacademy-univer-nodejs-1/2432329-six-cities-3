@@ -30,7 +30,11 @@ export class RestApplication {
     @inject(Component.CommentController)
     private readonly commentController: Controller,
     @inject(Component.AuthExceptionFilter)
-    private readonly authExceptionFilter: ExceptionFilter
+    private readonly authExceptionFilter: ExceptionFilter,
+    @inject(Component.HttpExceptionFilter)
+    private readonly httpExceptionFilter: ExceptionFilter,
+    @inject(Component.ValidationExceptionFilter)
+    private readonly validationExceptionFilter: ExceptionFilter
   ) {
     this.server = express();
   }
@@ -77,6 +81,12 @@ export class RestApplication {
       this.authExceptionFilter.catch.bind(this.authExceptionFilter)
     );
     this.server.use(
+      this.validationExceptionFilter.catch.bind(this.validationExceptionFilter)
+    );
+    this.server.use(
+      this.httpExceptionFilter.catch.bind(this.httpExceptionFilter)
+    );
+    this.server.use(
       this.appExceptionFilter.catch.bind(this.appExceptionFilter)
     );
   }
@@ -99,7 +109,6 @@ export class RestApplication {
     this.logger.info('Init exception filters');
     await this._initExceptionFilters();
     this.logger.info('Exception filters initialization compleated');
-
 
     this.logger.info('Try to init server…');
     await this._initServer();

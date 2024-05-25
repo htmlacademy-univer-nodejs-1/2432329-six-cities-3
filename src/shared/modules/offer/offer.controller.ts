@@ -138,12 +138,20 @@ export class OfferController extends BaseController {
     this.ok(res, responseData);
   }
 
-  public async updateById(): Promise<void> {
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'OfferController'
-    );
+  public async updateById(
+    {
+      body,
+      params,
+    }: Request<
+      Record<string, unknown>,
+      Record<string, unknown>,
+      UpdateOfferDto
+    >,
+    res: Response
+  ): Promise<void> {
+    const id = params.id;
+    const updatedOffer = await this.offerService.updateById(id as string, body);
+    this.ok(res, fillDTO(OfferRdo, updatedOffer));
   }
 
   public async deleteById(req: Request, res: Response): Promise<void> {
