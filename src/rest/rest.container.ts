@@ -11,6 +11,7 @@ import {
   AppExceptionFilter,
   ExceptionFilter,
   HttpErrorExceptionFilter,
+  PathTransformer,
 } from '../shared/libs/rest';
 import { ValidationExceptionFilter } from '../shared/libs/rest/exception-filter/validation.exception-filter';
 
@@ -44,6 +45,10 @@ export function createRestApplicationContainer() {
   restApplicationContainer
     .bind<ExceptionFilter>(Component.ValidationExceptionFilter)
     .to(ValidationExceptionFilter)
+    .inSingletonScope();
+  restApplicationContainer
+    .bind<PathTransformer>(Component.PathTransformer)
+    .to(PathTransformer)
     .inSingletonScope();
 
   return restApplicationContainer;
