@@ -1,12 +1,12 @@
 import { inject, injectable } from 'inversify';
 import { StatusCodes } from 'http-status-codes';
 import { Response, Router } from 'express';
-import { Controller } from './controller.interface';
-import { Logger } from '../../logger';
-import { Route } from '../types';
+import { Controller } from './controller.interface.js';
+import { Logger } from '../../logger/index.js';
+import { Route } from '../types/index.js';
 import asyncHandler from 'express-async-handler';
-import { Component } from '../../../types';
-import { PathTransformer } from '../transform';
+import { Component } from '../../../types/index.js';
+import { PathTransformer } from '../transform/index.js';
 
 const DEFAULT_CONTENT_TYPE = 'application/json';
 

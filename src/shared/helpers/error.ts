@@ -1,4 +1,4 @@
-import { ApplicationError, ValidationErrorField } from '../libs/rest';
+import { ApplicationError, ValidationErrorField } from '../libs/rest/index.js';
 
 export function createErrorObject(
   errorType: ApplicationError,

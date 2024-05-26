@@ -1,3 +1,3 @@
-export * from './logger.interface';
-export * from './pino.logger';
-export * from './console.logger';
+export * from './logger.interface.js';
+export * from './pino.logger.js';
+export * from './console.logger.js';

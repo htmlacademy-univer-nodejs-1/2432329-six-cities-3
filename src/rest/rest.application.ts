@@ -1,17 +1,17 @@
 import { inject, injectable } from 'inversify';
-import { Config, RestSchema } from '../shared/libs/config';
-import { Logger } from '../shared/libs/logger';
-import { Component } from '../shared/types';
-import { DatabaseClient } from '../shared/libs/database-client';
-import { getFullServerPath, getMongoURI } from '../shared/helpers';
+import { Config, RestSchema } from '../shared/libs/config/index.js';
+import { Logger } from '../shared/libs/logger/index.js';
+import { Component } from '../shared/types/index.js';
+import { DatabaseClient } from '../shared/libs/database-client/index.js';
+import { getFullServerPath, getMongoURI } from '../shared/helpers/index.js';
 import express, { Express } from 'express';
 import {
   Controller,
   ExceptionFilter,
   ParseTokenMiddleware,
-} from '../shared/libs/rest';
+} from '../shared/libs/rest/index.js';
 import cors from 'cors';
-import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from './rest.constant';
+import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from './rest.constant.js';
 
 @injectable()
 export class RestApplication {

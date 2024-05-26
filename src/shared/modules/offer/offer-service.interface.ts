@@ -1,7 +1,7 @@
 import { DocumentType } from '@typegoose/typegoose';
-import { CreateOfferDto, UpdateOfferDto } from './dto';
-import { OfferEntity } from './offer.entity';
-import { DocumentExists } from '../../types';
+import { CreateOfferDto, UpdateOfferDto } from './dto/index.js';
+import { OfferEntity } from './offer.entity.js';
+import { DocumentExists } from '../../types/index.js';
 
 export interface OfferService extends DocumentExists {
   get(offerCount?: number): Promise<DocumentType<OfferEntity>[] | null>;

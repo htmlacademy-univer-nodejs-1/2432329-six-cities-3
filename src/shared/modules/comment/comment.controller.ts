@@ -7,16 +7,16 @@ import {
   RequestParams,
   ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
-} from '../../libs/rest';
-import { Component } from '../../types';
-import { Logger } from '../../libs/logger';
-import { CommentService } from './comment-service.interface';
+} from '../../libs/rest/index.js';
+import { Component } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
+import { CommentService } from './comment-service.interface.js';
 import { Request, Response } from 'express';
-import { CommentRdo } from './rdo';
-import { OfferService } from '../offer';
-import { fillDTO } from '../../helpers';
-import { CreateCommentDto } from './dto';
-import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware';
+import { CommentRdo } from './rdo/index.js';
+import { OfferService } from '../offer/index.js';
+import { fillDTO } from '../../helpers/index.js';
+import { CreateCommentDto } from './dto/index.js';
+import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware.js';
 
 type CreateCommentRequest = Request<RequestParams, RequestBody, CommentRdo>;
 

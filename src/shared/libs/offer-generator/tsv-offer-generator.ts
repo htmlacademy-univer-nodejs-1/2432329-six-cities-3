@@ -2,15 +2,15 @@ import {
   generateRandomValue,
   getRandomItem,
   getRandomItems,
-} from '../../helpers';
+} from '../../helpers/index.js';
 import {
   Amenities,
   CityName,
   MockServerData,
   OfferType,
   UserType,
-} from '../../types';
-import { OfferGenerator } from './offer-generator.interface';
+} from '../../types/index.js';
+import { OfferGenerator } from './offer-generator.interface.js';
 
 const MIN_RATING = 1;
 const MAX_RATING = 5;

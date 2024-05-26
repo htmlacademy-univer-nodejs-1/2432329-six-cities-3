@@ -1,5 +1,5 @@
 import { ValidationError } from 'class-validator';
-import { ValidationErrorField } from '../libs/rest';
+import { ValidationErrorField } from '../libs/rest/index.js';
 
 export function reduceValidationErrors(
   errors: ValidationError[]

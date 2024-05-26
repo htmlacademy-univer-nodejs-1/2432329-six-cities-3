@@ -1,17 +1,17 @@
 import { inject, injectable } from 'inversify';
-import { AuthService } from './auth-service.interface';
-import { Component } from '../../types';
-import { Logger } from '../../libs/logger';
-import { LoginUserDto, UserEntity, UserService } from '../user';
-import { Config, RestSchema } from '../../libs/config';
-import { TokenPayload } from './types';
+import { AuthService } from './auth-service.interface.js';
+import { Component } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
+import { LoginUserDto, UserEntity, UserService } from '../user/index.js';
+import { Config, RestSchema } from '../../libs/config/index.js';
+import { TokenPayload } from './types/index.js';
 import { SignJWT } from 'jose';
-import { JWT_ALGORITHM, JWT_EXPIRED } from './auth.constant';
+import { JWT_ALGORITHM, JWT_EXPIRED } from './auth.constant.js';
 import * as crypto from 'node:crypto';
 import {
   UserNotFoundException,
   UserPasswordIncorrectException,
-} from './errors';
+} from './errors/index.js';
 
 @injectable()
 export class DefaultAuthService implements AuthService {

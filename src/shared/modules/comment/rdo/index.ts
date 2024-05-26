@@ -1,1 +1,1 @@
-export * from './comment.rdo';
+export * from './comment.rdo.js';

@@ -1,2 +1,2 @@
-export * from './rest.application';
-export * from './rest.constant';
+export * from './rest.application.js';
+export * from './rest.constant.js';

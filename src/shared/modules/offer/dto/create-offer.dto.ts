@@ -10,8 +10,8 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { Amenities, City, Location, OfferType } from '../../../types';
-import { CreateOfferValidationMessage } from './create-offer.messages';
+import { Amenities, City, Location, OfferType } from '../../../types/index.js';
+import { CreateOfferValidationMessage } from './create-offer.messages.js';
 
 export class CreateOfferDto {
   @IsString({ message: CreateOfferValidationMessage.title.invalidFormat })

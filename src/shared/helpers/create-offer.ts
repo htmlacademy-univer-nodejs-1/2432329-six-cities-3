@@ -4,7 +4,7 @@ import {
   Offer,
   OfferType,
   UserType,
-} from '../types';
+} from '../types/index.js';
 
 export function createOffer(offerData: string): Omit<Offer, 'id'> {
   const [

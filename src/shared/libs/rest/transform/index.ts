@@ -1,2 +1,2 @@
-export * from './path-transformer';
-export * from './path-transformer.constant';
+export * from './path-transformer.js';
+export * from './path-transformer.constant.js';

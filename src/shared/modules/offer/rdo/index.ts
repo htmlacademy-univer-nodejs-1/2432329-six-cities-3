@@ -1,1 +1,1 @@
-export * from './offer.rdo';
+export * from './offer.rdo.js';

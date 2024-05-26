@@ -1,11 +1,11 @@
 import { inject, injectable } from 'inversify';
-import { Component, SortType } from '../../types';
-import { OfferService } from './offer-service.interface';
-import { Logger } from '../../libs/logger';
+import { Component, SortType } from '../../types/index.js';
+import { OfferService } from './offer-service.interface.js';
+import { Logger } from '../../libs/logger/index.js';
 import { DocumentType, types } from '@typegoose/typegoose';
-import { OfferEntity } from './offer.entity';
-import { CreateOfferDto, UpdateOfferDto } from './dto';
-import { DEFAULT_OFFER_COUNT, PREMIUM_OFFER_COUNT } from './offer.constant';
+import { OfferEntity } from './offer.entity.js';
+import { CreateOfferDto, UpdateOfferDto } from './dto/index.js';
+import { DEFAULT_OFFER_COUNT, PREMIUM_OFFER_COUNT } from './offer.constant.js';
 
 @injectable()
 export class DefaultOfferService implements OfferService {

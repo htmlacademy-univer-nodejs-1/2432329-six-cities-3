@@ -1,3 +1,3 @@
-export * from './exception-filter.interface';
-export * from './app.exception-filter';
-export * from './http-error.exception-filter';
+export * from './exception-filter.interface.js';
+export * from './app.exception-filter.js';
+export * from './http-error.exception-filter.js';

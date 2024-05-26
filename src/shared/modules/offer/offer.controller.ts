@@ -6,16 +6,16 @@ import {
   PrivateRouteMiddleware,
   ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
-} from '../../libs/rest';
-import { Component } from '../../types';
-import { Logger } from '../../libs/logger';
+} from '../../libs/rest/index.js';
+import { Component } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
 import { Request, Response } from 'express';
-import { DefaultOfferService } from './offer.service';
-import { fillDTO } from '../../helpers';
-import { OfferRdo } from './rdo';
-import { CreateOfferDto, UpdateOfferDto } from './dto';
+import { DefaultOfferService } from './offer.service.js';
+import { fillDTO } from '../../helpers/index.js';
+import { OfferRdo } from './rdo/index.js';
+import { CreateOfferDto, UpdateOfferDto } from './dto/index.js';
 import { StatusCodes } from 'http-status-codes';
-import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware';
+import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware.js';
 
 @injectable()
 export class OfferController extends BaseController {

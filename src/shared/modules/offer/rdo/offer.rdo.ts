@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { City, Location, OfferType, User } from '../../../types';
+import { City, Location, OfferType, User } from '../../../types/index.js';
 
 export class OfferRdo {
   @Expose()

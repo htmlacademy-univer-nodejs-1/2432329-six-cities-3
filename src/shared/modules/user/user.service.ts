@@ -1,11 +1,11 @@
 import { DocumentType, types } from '@typegoose/typegoose';
-import { CreateUserDto, UpdateUserDto } from './dto';
-import { UserService } from './user-service.interface';
-import { UserEntity } from './user.entity';
+import { CreateUserDto, UpdateUserDto } from './dto/index.js';
+import { UserService } from './user-service.interface.js';
+import { UserEntity } from './user.entity.js';
 import { inject, injectable } from 'inversify';
-import { Component } from '../../types';
-import { Logger } from '../../libs/logger';
-import { DEFAULT_AVATAR_FILE_NAME } from './user.constant';
+import { Component } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
+import { DEFAULT_AVATAR_FILE_NAME } from './user.constant.js';
 
 @injectable()
 export class DefaultUserService implements UserService {

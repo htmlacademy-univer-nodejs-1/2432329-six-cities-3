@@ -8,17 +8,21 @@ import {
   UploadFileMiddleware,
   ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
-} from '../../libs/rest';
-import { Component } from '../../types';
-import { Logger } from '../../libs/logger';
-import { UserService } from './user-service.interface';
-import { Config, RestSchema } from '../../libs/config';
+} from '../../libs/rest/index.js';
+import { Component } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
+import { UserService } from './user-service.interface.js';
+import { Config, RestSchema } from '../../libs/config/index.js';
 import { Request, Response } from 'express';
-import { CreateUserDto, LoginUserDto } from './dto';
+import { CreateUserDto, LoginUserDto } from './dto/index.js';
 import { StatusCodes } from 'http-status-codes';
-import { fillDTO } from '../../helpers';
-import { AuthUserRdo, LoggedUserRdo, UploadUserAvatarRdo } from './rdo';
-import { AuthService } from '../auth';
+import { fillDTO } from '../../helpers/index.js';
+import {
+  AuthUserRdo,
+  LoggedUserRdo,
+  UploadUserAvatarRdo,
+} from './rdo/index.js';
+import { AuthService } from '../auth/index.js';
 
 type CreateUserRequest = Request<RequestParams, RequestBody, CreateUserDto>;
 type LoginUserRequest = Request<RequestParams, RequestBody, LoginUserDto>;
