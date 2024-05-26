@@ -21,8 +21,8 @@ export class DefaultCommentService implements CommentService {
   ): Promise<DocumentType<CommentEntity>> {
     const result = await this.commentModel.create({
       ...dto,
-      publishDate: new Date(),
-      offer: offerId,
+      date: new Date(),
+      offerId: offerId,
     });
     this.logger.info('New comment created');
 
@@ -33,8 +33,8 @@ export class DefaultCommentService implements CommentService {
     offerId: string
   ): Promise<DocumentType<CommentEntity>[]> {
     return this.commentModel
-      .find({ offer: offerId })
-      .sort({ createdAt: SortType.Down })
+      .find({ offerId })
+      .sort({ date: SortType.Down })
       .limit(DEFAULT_COMMENT_COUNT)
       .populate('user')
       .exec();

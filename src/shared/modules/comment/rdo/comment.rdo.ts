@@ -1,5 +1,5 @@
-import { Expose } from 'class-transformer';
-import { UserEntity } from '../../user';
+import { Expose, Type } from 'class-transformer';
+import { UserRdo } from '../../user/rdo';
 
 export class CommentRdo {
   @Expose()
@@ -12,7 +12,11 @@ export class CommentRdo {
   public rating: number;
 
   @Expose()
-  public user: UserEntity;
+  public date: string;
+
+  @Expose({ name: 'user' })
+  @Type(() => UserRdo)
+  public user: string;
 
   public offerId: string;
 }
