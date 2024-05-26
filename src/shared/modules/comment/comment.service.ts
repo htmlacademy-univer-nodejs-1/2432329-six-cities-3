@@ -16,11 +16,13 @@ export class DefaultCommentService implements CommentService {
   ) {}
 
   public async create(
+    offerId: string,
     dto: CreateCommentDto
   ): Promise<DocumentType<CommentEntity>> {
     const result = await this.commentModel.create({
       ...dto,
       publishDate: new Date(),
+      offer: offerId,
     });
     this.logger.info('New comment created');
 
@@ -29,12 +31,12 @@ export class DefaultCommentService implements CommentService {
 
   public async getByOfferId(
     offerId: string
-  ): Promise<DocumentType<CommentEntity> | null> {
+  ): Promise<DocumentType<CommentEntity>[]> {
     return this.commentModel
-      .findById(offerId)
+      .find({ offer: offerId })
       .sort({ createdAt: SortType.Down })
       .limit(DEFAULT_COMMENT_COUNT)
-      .populate('author')
+      .populate('user')
       .exec();
   }
 }

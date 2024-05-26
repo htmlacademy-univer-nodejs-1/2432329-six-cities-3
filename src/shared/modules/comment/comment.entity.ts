@@ -6,6 +6,7 @@ import {
   prop,
 } from '@typegoose/typegoose';
 import { UserEntity } from '../user';
+import { OfferEntity } from '../offer';
 
 export interface CommentEntity extends defaultClasses.Base {}
 
@@ -24,7 +25,10 @@ export class CommentEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, min: 1, max: 5, type: () => Number })
   public rating: number;
 
-  @prop({ required: true, ref: UserEntity })
+  @prop({ required: true, ref: OfferEntity })
+  public offer: Ref<OfferEntity>;
+
+  @prop({ required: true, ref: () => UserEntity })
   public user: Ref<UserEntity>;
 }
 

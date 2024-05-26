@@ -65,7 +65,7 @@ export class CommentController extends BaseController {
   ): Promise<void> {
     const offerId = params.offerId as unknown as string;
 
-    const comment = await this.commentService.create({
+    const comment = await this.commentService.create(offerId, {
       ...body,
       user: tokenPayload.id,
     });
