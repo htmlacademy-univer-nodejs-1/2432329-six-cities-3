@@ -1,5 +1,5 @@
 import { Max, MaxLength, Min, MinLength } from 'class-validator';
-import { CreateCommentValidationMessage } from './create-comment.messages';
+import { CreateCommentValidationMessage } from './create-comment.messages.js';
 
 export class CreateCommentDto {
   @MinLength(5, { message: CreateCommentValidationMessage.comment.minLength })
@@ -12,5 +12,7 @@ export class CreateCommentDto {
   @Max(5, { message: CreateCommentValidationMessage.rating.max })
   public rating: number;
 
-  public author: string;
+  public user: string;
+
+  public offerId: string;
 }

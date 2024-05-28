@@ -7,23 +7,23 @@ import {
   RequestParams,
   ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
-} from '../../libs/rest';
-import { Component } from '../../types';
-import { Logger } from '../../libs/logger';
-import { CommentService } from './comment-service.interface';
+} from '../../libs/rest/index.js';
+import { Component } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
+import { CommentService } from './comment-service.interface.js';
 import { Request, Response } from 'express';
-import { CommentRdo } from './rdo';
-import { OfferService } from '../offer';
-import { fillDTO } from '../../helpers';
-import { CreateCommentDto } from './dto';
-import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware';
+import { CommentRdo } from './rdo/index.js';
+import { OfferService } from '../offer/index.js';
+import { fillDTO } from '../../helpers/index.js';
+import { CreateCommentDto } from './dto/index.js';
+import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware.js';
 
 type CreateCommentRequest = Request<RequestParams, RequestBody, CommentRdo>;
 
 export class CommentController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
-    @inject(Component.UserService)
+    @inject(Component.CommentService)
     private readonly commentService: CommentService,
     @inject(Component.OfferService) private readonly offerService: OfferService
   ) {
@@ -56,7 +56,7 @@ export class CommentController extends BaseController {
     const offerId = params.offerId as unknown as string;
 
     const comments = await this.commentService.getByOfferId(offerId);
-    this.ok(res, fillDTO(CommentRdo, comments));
+    this.ok(res, fillDTO(CommentRdo, comments ?? []));
   }
 
   public async create(
@@ -65,9 +65,9 @@ export class CommentController extends BaseController {
   ): Promise<void> {
     const offerId = params.offerId as unknown as string;
 
-    const comment = await this.commentService.create({
+    const comment = await this.commentService.create(offerId, {
       ...body,
-      author: tokenPayload.id,
+      user: tokenPayload.id,
     });
     await this.offerService.updateCommentCount(offerId);
     this.created(res, fillDTO(CommentRdo, comment));

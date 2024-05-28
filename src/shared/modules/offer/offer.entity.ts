@@ -5,8 +5,8 @@ import {
   modelOptions,
   prop,
 } from '@typegoose/typegoose';
-import { Amenities, City, Location, OfferType } from '../../types';
-import { UserEntity } from '../user';
+import { Amenities, City, Location, OfferType } from '../../types/index.js';
+import { UserEntity } from '../user/index.js';
 
 export interface OfferEntity extends defaultClasses.Base {}
 
@@ -25,7 +25,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, type: () => Date })
   public publishDate: Date;
 
-  @prop({ required: true, type: () => String })
+  @prop({ required: true, type: () => Object })
   public city: City;
 
   @prop({ required: true, type: () => String })

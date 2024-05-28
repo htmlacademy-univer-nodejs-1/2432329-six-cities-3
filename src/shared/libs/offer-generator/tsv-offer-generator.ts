@@ -1,20 +1,16 @@
-import dayjs from 'dayjs';
 import {
   generateRandomValue,
   getRandomItem,
   getRandomItems,
-} from '../../helpers';
+} from '../../helpers/index.js';
 import {
   Amenities,
-  City,
+  CityName,
   MockServerData,
   OfferType,
   UserType,
-} from '../../types';
-import { OfferGenerator } from './offer-generator.interface';
-
-const FIRST_WEEK_DAY = 1;
-const LAST_WEEK_DAY = 7;
+} from '../../types/index.js';
+import { OfferGenerator } from './offer-generator.interface.js';
 
 const MIN_RATING = 1;
 const MAX_RATING = 5;
@@ -30,32 +26,32 @@ const MAX_RENT = 100_000;
 
 const CITIES = [
   {
-    city: City.Amsterdam,
+    city: CityName.Amsterdam,
     latitude: 52.370216,
     longitude: 4.895168,
   },
   {
-    city: City.Brussels,
+    city: CityName.Brussels,
     latitude: 50.846557,
     longitude: 4.351697,
   },
   {
-    city: City.Cologne,
+    city: CityName.Cologne,
     latitude: 50.938361,
     longitude: 6.959974,
   },
   {
-    city: City.Dusseldorf,
+    city: CityName.Dusseldorf,
     latitude: 51.225402,
     longitude: 6.776314,
   },
   {
-    city: City.Hamburg,
+    city: CityName.Hamburg,
     latitude: 53.550341,
     longitude: 10.000654,
   },
   {
-    city: City.Paris,
+    city: CityName.Paris,
     latitude: 48.85661,
     longitude: 2.351499,
   },
@@ -80,10 +76,7 @@ const AMENITIES = [
   Amenities.Washer,
 ];
 
-const MIN_COMMENTS = 0;
-const MAX_COMMENTS = 1000;
-
-const USER_TYPES = [UserType.Ordinary, UserType.Pro];
+const USER_TYPES = [UserType.Regular, UserType.Pro];
 
 export class TSVOfferGenerator implements OfferGenerator {
   constructor(private readonly mockData: MockServerData) {}
@@ -91,9 +84,6 @@ export class TSVOfferGenerator implements OfferGenerator {
   generate(): string {
     const title = getRandomItem(this.mockData.titles);
     const description = getRandomItem(this.mockData.descriptions);
-    const publishDate = dayjs()
-      .subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day')
-      .toISOString();
     const cityInfo = getRandomItem(CITIES);
     const { city, latitude, longitude } = cityInfo;
     const imagePreview = getRandomItem(this.mockData.imagePreviews);
@@ -111,13 +101,11 @@ export class TSVOfferGenerator implements OfferGenerator {
     const avatarUrl = getRandomItem(this.mockData.avatars);
     const password = getRandomItem(this.mockData.passwords);
     const userType = getRandomItem(USER_TYPES);
-    const commentsCount = generateRandomValue(MIN_COMMENTS, MAX_COMMENTS);
     const coordinates = [latitude, longitude].join(';');
 
     return [
       title,
       description,
-      publishDate,
       city,
       imagePreview,
       photos,
@@ -134,7 +122,6 @@ export class TSVOfferGenerator implements OfferGenerator {
       avatarUrl,
       password,
       userType,
-      commentsCount,
       coordinates,
     ].join('\t');
   }

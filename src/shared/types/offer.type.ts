@@ -1,8 +1,8 @@
-import { Amenities } from './amenities.enum';
-import { City } from './city.enum';
-import { Location } from './location.type';
-import { OfferType } from './offer-type.enum';
-import { User } from './user.type';
+import { Amenities } from './amenities.enum.js';
+import { City } from './city.js';
+import { Location } from './location.type.js';
+import { OfferType } from './offer-type.enum.js';
+import { User } from './user.type.js';
 
 export type Offer = {
   id: string;

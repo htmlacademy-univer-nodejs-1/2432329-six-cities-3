@@ -12,8 +12,8 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { Amenities, City, Location, OfferType, User } from '../../../types';
-import { UpdateOfferValidationMessage } from './update-offer.messages';
+import { Amenities, City, OfferType, User } from '../../../types/index.js';
+import { UpdateOfferValidationMessage } from './update-offer.messages.js';
 
 export class UpdateOfferDto {
   @IsString({ message: UpdateOfferValidationMessage.title.invalidFormat })
@@ -35,7 +35,9 @@ export class UpdateOfferDto {
   )
   public publishDate: Date;
 
-  @IsEnum(City, { message: UpdateOfferValidationMessage.city.invalidFormat })
+  @IsObject({
+    message: UpdateOfferValidationMessage.city.invalidFormat,
+  })
   public city: City;
 
   public previewImage: string;
@@ -81,14 +83,8 @@ export class UpdateOfferDto {
   public price: number;
 
   @IsArray({ message: UpdateOfferValidationMessage.goods.invalidFormat })
-  @IsEnum(Amenities, {
-    message: UpdateOfferValidationMessage.goods.invalidElementFormat,
-  })
   public goods: Amenities[];
 
   @IsMongoId({ message: UpdateOfferValidationMessage.host.invalidFormat })
   public host: User;
-
-  @IsObject({ message: UpdateOfferValidationMessage.location.invalidFormat })
-  public location: Location;
 }

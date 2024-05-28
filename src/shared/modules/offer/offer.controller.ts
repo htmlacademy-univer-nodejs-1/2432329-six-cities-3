@@ -6,16 +6,16 @@ import {
   PrivateRouteMiddleware,
   ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
-} from '../../libs/rest';
-import { Component } from '../../types';
-import { Logger } from '../../libs/logger';
+} from '../../libs/rest/index.js';
+import { Component } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
 import { Request, Response } from 'express';
-import { DefaultOfferService } from './offer.service';
-import { fillDTO } from '../../helpers';
-import { OfferRdo } from './rdo';
-import { CreateOfferDto, UpdateOfferDto } from './dto';
+import { DefaultOfferService } from './offer.service.js';
+import { fillDTO } from '../../helpers/index.js';
+import { OfferRdo } from './rdo/index.js';
+import { CreateOfferDto, UpdateOfferDto } from './dto/index.js';
 import { StatusCodes } from 'http-status-codes';
-import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware';
+import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -29,12 +29,12 @@ export class OfferController extends BaseController {
     this.logger.info('Register routes for OfferController…');
 
     this.addRoute({
-      path: 'offers/',
+      path: '/offers',
       method: HttpMethod.Get,
       handler: this.index,
     });
     this.addRoute({
-      path: 'offers/',
+      path: '/offers',
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
@@ -43,32 +43,32 @@ export class OfferController extends BaseController {
       ],
     });
     this.addRoute({
-      path: 'offers/:id',
+      path: '/offers/:id',
       method: HttpMethod.Get,
       handler: this.getById,
       middlewares: [
-        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateObjectIdMiddleware('id'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
     this.addRoute({
-      path: 'offers/:id',
+      path: '/offers/:id',
       method: HttpMethod.Patch,
       handler: this.updateById,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateObjectIdMiddleware('id'),
         new ValidateDtoMiddleware(UpdateOfferDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
     this.addRoute({
-      path: 'offers/:id',
+      path: '/offers/:id',
       method: HttpMethod.Delete,
       handler: this.deleteById,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateObjectIdMiddleware('id'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
@@ -89,7 +89,7 @@ export class OfferController extends BaseController {
       handler: this.addFavorite,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateObjectIdMiddleware('id'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
@@ -99,7 +99,7 @@ export class OfferController extends BaseController {
       handler: this.removeFavorite,
       middlewares: [
         new PrivateRouteMiddleware(),
-        new ValidateObjectIdMiddleware('offerId'),
+        new ValidateObjectIdMiddleware('id'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ],
     });
@@ -138,12 +138,20 @@ export class OfferController extends BaseController {
     this.ok(res, responseData);
   }
 
-  public async updateById(): Promise<void> {
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'OfferController'
-    );
+  public async updateById(
+    {
+      body,
+      params,
+    }: Request<
+      Record<string, unknown>,
+      Record<string, unknown>,
+      UpdateOfferDto
+    >,
+    res: Response
+  ): Promise<void> {
+    const id = params.id;
+    const updatedOffer = await this.offerService.updateById(id as string, body);
+    this.ok(res, fillDTO(OfferRdo, updatedOffer));
   }
 
   public async deleteById(req: Request, res: Response): Promise<void> {

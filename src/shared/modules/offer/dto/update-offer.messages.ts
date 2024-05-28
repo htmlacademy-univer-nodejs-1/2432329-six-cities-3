@@ -13,8 +13,7 @@ export const UpdateOfferValidationMessage = {
     invalidFormat: 'PublishDate must be a valid ISO date',
   },
   city: {
-    invalidFormat:
-      'must be one of Paris, Cologne, Brussels, Amsterdam, Hamburg, Dusseldorf',
+    invalidFormat: 'Should be of type City',
   },
   images: {
     invalidFormat: 'Images must be an array',
@@ -51,9 +50,6 @@ export const UpdateOfferValidationMessage = {
     invalidFormat: 'Must be an array',
     invalidElementFormat:
       'Element must be one of Breakfast, Air conditioning, Laptop friendly workspace, Baby seat, Washer, Towels, Fridge',
-  },
-  location: {
-    invalidFormat: 'Location must be a valid object',
   },
   host: {
     invalidFormat: 'Must be a valid MongoId',

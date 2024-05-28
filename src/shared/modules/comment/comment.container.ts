@@ -1,11 +1,11 @@
 import { Container } from 'inversify';
-import { Component } from '../../types';
-import { CommentService } from './comment-service.interface';
+import { Component } from '../../types/index.js';
+import { CommentService } from './comment-service.interface.js';
 import { types } from '@typegoose/typegoose';
-import { CommentEntity, CommentModel } from './comment.entity';
-import { DefaultCommentService } from './comment.service';
-import { Controller } from '../../libs/rest';
-import { CommentController } from './comment.controller';
+import { CommentEntity, CommentModel } from './comment.entity.js';
+import { DefaultCommentService } from './comment.service.js';
+import { Controller } from '../../libs/rest/index.js';
+import { CommentController } from './comment.controller.js';
 
 export function createCommentContainer() {
   const commentContainer = new Container();

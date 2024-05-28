@@ -18,7 +18,7 @@ import {
   DefaultOfferService,
   OfferModel,
 } from '../../shared/modules/offer/index.js';
-import { Offer } from '../../shared/types/index.js';
+import { Offer, UserType } from '../../shared/types/index.js';
 
 export const DEFAULT_DB_PORT = '27017';
 
@@ -49,11 +49,14 @@ export class ImportCommand implements Command {
     await this.saveOffer(offer);
   }
 
-  private async saveOffer(offer: Offer) {
+  private async saveOffer(offer: Omit<Offer, 'id'>) {
     const user = await this.userService.getOrCreate(
       {
         ...offer.host,
-        password: '123456',
+        email: 'test@example.com',
+        type: UserType.Regular,
+        password: '1234567',
+        name: 'jurmaev',
       },
       this.salt
     );
@@ -61,20 +64,16 @@ export class ImportCommand implements Command {
     await this.offerService.create({
       title: offer.title,
       description: offer.description,
-      publishDate: new Date(),
       city: offer.city,
       previewImage: offer.previewImage,
       images: offer.images,
       isPremium: offer.isPremium,
-      isFavorite: offer.isFavorite,
-      rating: offer.rating,
       type: offer.type,
       bedrooms: offer.bedrooms,
       maxAdults: offer.maxAdults,
       price: offer.price,
       goods: offer.goods,
-      host: user,
-      commentsCount: 0,
+      host: user.id,
       location: offer.location,
     });
   }

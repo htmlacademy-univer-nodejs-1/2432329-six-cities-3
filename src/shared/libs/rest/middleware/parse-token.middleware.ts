@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { TokenPayload } from '../../../modules/auth/types';
-import { Middleware } from './middleware.interface';
+import { TokenPayload } from '../../../modules/auth/types/index.js';
+import { Middleware } from './middleware.interface.js';
 import { jwtVerify } from 'jose';
 import { createSecretKey } from 'node:crypto';
-import { HttpError } from '../errors';
+import { HttpError } from '../errors/index.js';
 import { StatusCodes } from 'http-status-codes';
 
 function isTokenPayload(payload: unknown): payload is TokenPayload {

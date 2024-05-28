@@ -1,11 +1,11 @@
 import { inject, injectable } from 'inversify';
-import { CommentService } from './comment-service.interface';
-import { Component, SortType } from '../../types';
-import { Logger } from '../../libs/logger';
+import { CommentService } from './comment-service.interface.js';
+import { Component, SortType } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
 import { DocumentType, types } from '@typegoose/typegoose';
-import { CommentEntity } from './comment.entity';
-import { CreateCommentDto } from './dto';
-import { DEFAULT_COMMENT_COUNT } from './comment.constant';
+import { CommentEntity } from './comment.entity.js';
+import { CreateCommentDto } from './dto/index.js';
+import { DEFAULT_COMMENT_COUNT } from './comment.constant.js';
 
 @injectable()
 export class DefaultCommentService implements CommentService {
@@ -16,22 +16,27 @@ export class DefaultCommentService implements CommentService {
   ) {}
 
   public async create(
+    offerId: string,
     dto: CreateCommentDto
   ): Promise<DocumentType<CommentEntity>> {
-    const result = await this.commentModel.create(dto);
+    const result = await this.commentModel.create({
+      ...dto,
+      date: new Date(),
+      offerId: offerId,
+    });
     this.logger.info('New comment created');
 
-    return result.populate('author');
+    return result.populate('user');
   }
 
   public async getByOfferId(
     offerId: string
-  ): Promise<DocumentType<CommentEntity> | null> {
+  ): Promise<DocumentType<CommentEntity>[]> {
     return this.commentModel
-      .findById(offerId)
-      .sort({ createdAt: SortType.Down })
+      .find({ offerId })
+      .sort({ date: SortType.Down })
       .limit(DEFAULT_COMMENT_COUNT)
-      .populate('author')
+      .populate('user')
       .exec();
   }
 }

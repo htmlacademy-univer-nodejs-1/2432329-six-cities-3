@@ -1,3 +1,3 @@
-export * from './config.interface';
-export * from './rest.config';
-export * from './rest.schema';
+export * from './config.interface.js';
+export * from './rest.config.js';
+export * from './rest.schema.js';

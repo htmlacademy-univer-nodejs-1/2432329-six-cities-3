@@ -1,11 +1,11 @@
 import { Container } from 'inversify';
-import { UserService } from './user-service.interface';
-import { Component } from '../../types';
-import { DefaultUserService } from './user.service';
-import { UserEntity, UserModel } from './user.entity';
+import { UserService } from './user-service.interface.js';
+import { Component } from '../../types/index.js';
+import { DefaultUserService } from './user.service.js';
+import { UserEntity, UserModel } from './user.entity.js';
 import { types } from '@typegoose/typegoose';
-import { Controller } from '../../libs/rest';
-import { UserController } from './user.controller';
+import { Controller } from '../../libs/rest/index.js';
+import { UserController } from './user.controller.js';
 
 export function createUserContainer() {
   const userContainer = new Container();

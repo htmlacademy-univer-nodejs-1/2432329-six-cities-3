@@ -1,10 +1,11 @@
 import { DocumentType, types } from '@typegoose/typegoose';
-import { CreateUserDto } from './dto';
-import { UserService } from './user-service.interface';
-import { UserEntity } from './user.entity';
+import { CreateUserDto, UpdateUserDto } from './dto/index.js';
+import { UserService } from './user-service.interface.js';
+import { UserEntity } from './user.entity.js';
 import { inject, injectable } from 'inversify';
-import { Component } from '../../types';
-import { Logger } from '../../libs/logger';
+import { Component } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
+import { DEFAULT_AVATAR_FILE_NAME } from './user.constant.js';
 
 @injectable()
 export class DefaultUserService implements UserService {
@@ -18,7 +19,10 @@ export class DefaultUserService implements UserService {
     dto: CreateUserDto,
     salt: string
   ): Promise<DocumentType<UserEntity>> {
-    const user = new UserEntity(dto);
+    const user = new UserEntity({
+      ...dto,
+      avatarUrl: DEFAULT_AVATAR_FILE_NAME,
+    });
     user.setPassword(dto.password, salt);
 
     const result = await this.userModel.create(user);
@@ -44,5 +48,12 @@ export class DefaultUserService implements UserService {
     }
 
     return this.create(dto, salt);
+  }
+
+  public async updateById(
+    userId: string,
+    dto: UpdateUserDto
+  ): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findByIdAndUpdate(userId, dto, { new: true }).exec();
   }
 }

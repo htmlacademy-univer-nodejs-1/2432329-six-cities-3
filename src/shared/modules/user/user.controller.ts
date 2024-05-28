@@ -8,17 +8,21 @@ import {
   UploadFileMiddleware,
   ValidateDtoMiddleware,
   ValidateObjectIdMiddleware,
-} from '../../libs/rest';
-import { Component } from '../../types';
-import { Logger } from '../../libs/logger';
-import { UserService } from './user-service.interface';
-import { Config, RestSchema } from '../../libs/config';
+} from '../../libs/rest/index.js';
+import { Component } from '../../types/index.js';
+import { Logger } from '../../libs/logger/index.js';
+import { UserService } from './user-service.interface.js';
+import { Config, RestSchema } from '../../libs/config/index.js';
 import { Request, Response } from 'express';
-import { CreateUserDto, LoginUserDto } from './dto';
+import { CreateUserDto, LoginUserDto } from './dto/index.js';
 import { StatusCodes } from 'http-status-codes';
-import { fillDTO } from '../../helpers';
-import { AuthUserRdo, LoggedUserRdo } from './rdo';
-import { AuthService } from '../auth';
+import { fillDTO } from '../../helpers/index.js';
+import {
+  AuthUserRdo,
+  LoggedUserRdo,
+  UploadUserAvatarRdo,
+} from './rdo/index.js';
+import { AuthService } from '../auth/index.js';
 
 type CreateUserRequest = Request<RequestParams, RequestBody, CreateUserDto>;
 type LoginUserRequest = Request<RequestParams, RequestBody, LoginUserDto>;
@@ -119,17 +123,19 @@ export class UserController extends BaseController {
     this.ok(res, fillDTO(LoggedUserRdo, foundUser));
   }
 
-  public async logout(): Promise<void> {
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController'
-    );
+  public async logout(_req: Request, res: Response): Promise<void> {
+    this.ok(res, null);
   }
 
-  public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filepath: req.file?.path,
-    });
+  public async uploadAvatar({ params, file }: Request, res: Response) {
+    const { userId } = params;
+    if (file) {
+      const uploadFile = { avatarUrl: file.filename };
+      await this.userService.updateById(userId, uploadFile);
+      this.created(
+        res,
+        fillDTO(UploadUserAvatarRdo, { filepath: uploadFile.avatarUrl })
+      );
+    }
   }
 }
