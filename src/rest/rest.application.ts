@@ -42,10 +42,14 @@ export class RestApplication {
 
   private async _initDb() {
     const mongoUri = getMongoURI(
+      this.config.get('DB_USER'),
+      this.config.get('DB_PASSWORD'),
       this.config.get('DB_HOST'),
       this.config.get('DB_PORT'),
       this.config.get('DB_NAME')
     );
+
+    console.log(mongoUri);
 
     return this.databaseClient.connect(mongoUri);
   }
@@ -65,7 +69,6 @@ export class RestApplication {
     const authenticateMiddleware = new ParseTokenMiddleware(
       this.config.get('JWT_SECRET')
     );
-
     this.server.use(express.json());
     this.server.use(
       STATIC_UPLOAD_ROUTE,

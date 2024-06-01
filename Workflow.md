@@ -121,8 +121,8 @@ npm import:dev
 PORT='4000' - порт приложения
 SALT='secret' - соль
 DB_HOST='127.0.0.1' - ip для хоста базы данных
-DB_USER='' - пользователь для базы данных
-DB_PASSWORD='' - пароль для базы данных
+DB_USER='admin' - пользователь для базы данных
+DB_PASSWORD='test' - пароль для базы данных
 DB_PORT='27017' - порт базы данных
 DB_NAME='six-cities' - название базы данных
 JWT_SECRET='secret' - секрет для JWT токенов
@@ -132,9 +132,12 @@ STATIC_DIRECTORY_PATH='static' - папка для статичных файло
 
 ### Запуск проекта
 
+docker compose up
+для поднятия бд
+
 С помощью команды 
 ```bash
-npm start:dev
+npm run start:dev
 ```
 запустить бэкенд 
 
