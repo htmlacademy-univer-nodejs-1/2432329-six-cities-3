@@ -130,7 +130,7 @@ UPLOAD_DIRECTORY='/upload' - путь до папки для загрузки ф
 HOST='localhost' - хост
 STATIC_DIRECTORY_PATH='static' - папка для статичных файлов
 
-### Остальное
+### Запуск проекта
 
 С помощью команды 
 ```bash
