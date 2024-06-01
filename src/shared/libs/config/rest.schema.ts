@@ -6,6 +6,8 @@ convict.addFormats(validator);
 export type RestSchema = {
   PORT: number;
   SALT: string;
+  DB_USER: string;
+  DB_PASSWORD: string;
   DB_HOST: string;
   DB_PORT: string;
   DB_NAME: string;
@@ -33,6 +35,18 @@ export const configRestSchema = convict<RestSchema>({
     format: 'ipaddress',
     env: 'DB_HOST',
     default: '127.0.0.1',
+  },
+  DB_USER: {
+    doc: 'User to connect to the database (MongoDB)',
+    format: String,
+    env: 'DB_USER',
+    default: 'admin',
+  },
+  DB_PASSWORD: {
+    doc: 'Password to connect to the database (MongoDB)',
+    format: String,
+    env: 'DB_PASSWORD',
+    default: 'test',
   },
   DB_PORT: {
     doc: 'Port to connect to the database (MongoDB)',
